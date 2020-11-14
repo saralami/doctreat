@@ -189,17 +189,17 @@ if( !function_exists('doctreat_get_user_role') ){
  */
 
  //NEED IT RIGHT NOW!!!!!
-if (!function_exists('doctreat_booking_details')) {
+// if (!function_exists('doctreat_booking_details')) {
 
-    function doctreat_booking_details() {
-		$booking_id	= !empty($_GET['id']) ? intval($_GET['id']) : 0;
-		if ( !empty($booking_id) ){
-			$script = "jQuery(document).ready(function ($) { setTimeout(function() {jQuery('a[data-id=".$booking_id."]').trigger('click');},100);});";
-			wp_add_inline_script('doctreat-dashboard', $script, 'after');
-		}
-	}
-	add_action('doctreat_booking_details', 'doctreat_booking_details');
-}
+//     function doctreat_booking_details() {
+// 		$booking_id	= !empty($_GET['id']) ? intval($_GET['id']) : 0;
+// 		if ( !empty($booking_id) ){
+// 			$script = "jQuery(document).ready(function ($) { setTimeout(function() {jQuery('a[data-id=".$booking_id."]').trigger('click');},100);});";
+// 			wp_add_inline_script('doctreat-dashboard', $script, 'after');
+// 		}
+// 	}
+// 	add_action('doctreat_booking_details', 'doctreat_booking_details');
+// }
 
 /**
  * User reset password

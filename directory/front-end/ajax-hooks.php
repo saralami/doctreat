@@ -3684,6 +3684,7 @@ if ( !function_exists( 'doctreat_booking_complete' ) ) {
  * @author Amentotech <theamentotech@gmail.com>
  * @return 
  */
+
 if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 
 	function doctreat_get_booking_byID() {
@@ -3718,6 +3719,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 			$tine_slot		= $slots;
 			if( !empty( $slots ) ) {
 				$slots	= date( $time_format,strtotime('2016-01-01' . $slots[0]) );
+				
 			}
 			
 			$user_types		= doctreat_list_user_types();

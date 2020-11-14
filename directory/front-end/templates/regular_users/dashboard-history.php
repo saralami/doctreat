@@ -73,10 +73,15 @@ $height		= 40;
 					</div>
 				</div>
 			</div>
-	
+
+           <!-- Last 5 Appointments -->
+             <?php 
+              
+              ?>
 		<div class="dc-searchresult-head">
 			<div class="dc-title"><h3><?php esc_html_e('Recent Appointments','doctreat');?></h3></div>
 		</div>
+        
 		<?php if( $query->have_posts() ){ ?>
 			<div class="dc-recentapoint-holder dc-recentapoint-holdertest">
 				<?php
@@ -101,15 +106,45 @@ $height		= 40;
 						$doctor_url		= get_the_permalink( $doctor_id );
 						$doctor_url		= !empty( $doctor_url ) ? $doctor_url : '';
 						$ap_date		= get_post_meta( $post->ID,'_appointment_date',true);
-						$ap_date		= !empty( $ap_date ) ? strtotime($ap_date) : '';
+                        $ap_date		= !empty( $ap_date ) ? strtotime($ap_date) : '';
+                        
+                       
+                        // $today_date	= date('2020-10-26');
+                         $today_date	= date('Y-m-d');
+                       
+                        $today_day     = date_i18n('d',$today_date);
+                        $today_month     = date_i18n('m',$today_date);
+                        $today_year     = date_i18n('Y',$today_date);
 
+                       $ap_day  = date_i18n('d',$ap_date);
+                       $ap_month  = date_i18n('m',$ap_date);
+                       $ap_year  = date_i18n('Y',$ap_date);
+                       //echo $ap_month;
+                         if( ($today_year ==  $ap_year)  ){
+                            $diff_month = $today_month - $ap_month;
+                            $diff_days = $today_day - $ap_day;
+                            echo  $diff_month.'  ';
+                            echo  $diff_days.'  ';
+                           //$day = ($current_day - $ap_day) 
+                           //echo $today_day.'  '; 
+                           //echo $ap_day.'  '; 
+                            //echo $current_month.'  ';
+                            //echo $day;
+                           // echo $ap_year.'  ';
+                            //echo date_i18n('d',$ap_date);
+                           
+                         }
+                       
 						?>
+         
 						<div class="dc-recentapoint">
 							<?php if( !empty( $ap_date ) ){?>
 								<div class="dc-apoint-date">
 									<span><?php echo date_i18n('d',$ap_date);?></span>
 									<em><?php echo date_i18n('M',$ap_date);?></em>
+									<em><?php echo date_i18n('Y',$ap_date);?></em>
 								</div>
+                                
 							<?php } ?>
 							<div class="dc-recentapoint-content dc-apoint-noti dc-noti-colorone">
 								<?php if( !empty( $thumbnail ) ){?>

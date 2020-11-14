@@ -51,3 +51,4 @@ if( !function_exists('doctreat_load_child_text_domain') ){
 
 require_once ( get_stylesheet_directory() . '/directory/front-end/class-dashboard-menu.php');
 require_once ( get_stylesheet_directory() . '/directory/front-end/functions.php');
+require_once ( get_stylesheet_directory() . '/directory/front-end/ajax-hooks.php');
