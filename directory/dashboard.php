@@ -112,9 +112,22 @@ if ( is_user_logged_in()
 					get_template_part('directory/front-end/templates/regular_users/dashboard', 'appointment-listing');
 				} else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'invoices' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/dashboard', 'invoices');
-				} else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'history-regular' && ($url_identity === $user_identity) ) {
-					get_template_part('directory/front-end/templates/regular_users/dashboard', 'history');
-				} else if ( !empty($ref) && $_GET['ref'] === 'account-settings' && ($url_identity === $user_identity) ) {
+				} 
+
+				// History
+				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'history-regular' && ($url_identity === $user_identity) ) {
+					get_template_part('directory/front-end/templates/regular_users/history/dashboard', 'history');
+				} 
+
+				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'history-appointment-listing' && ($url_identity === $user_identity) ) {
+					get_template_part('directory/front-end/templates/regular_users/history/dashboard', 'history-appointment-listing');
+				} 
+
+				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'history-doctors-listing' && ($url_identity === $user_identity) ) {
+					get_template_part('directory/front-end/templates/regular_users/history/dashboard', 'history-doctors-listing');
+				} 
+				
+				else if ( !empty($ref) && $_GET['ref'] === 'account-settings' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/dashboard', 'account-manage');
 				} elseif ( !empty($ref) && $_GET['ref'] === 'saved' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/dashboard', 'saved-items');

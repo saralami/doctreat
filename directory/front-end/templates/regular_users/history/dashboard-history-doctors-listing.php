@@ -20,7 +20,7 @@ $show_posts 		= get_option('posts_per_page') ? get_option('posts_per_page') : 10
 $pg_page 			= get_query_var('page') ? get_query_var('page') : 1; 
 $pg_paged 			= get_query_var('paged') ? get_query_var('paged') : 1;
 $paged 				= max($pg_page, $pg_paged);
-$order 	 			= 'DESC';
+$order 	 			= 'ASC';
 $sorting 			= 'ID';
 
 $args = array(
@@ -52,7 +52,14 @@ $height		= 40;
 //$flag 		= rand(9999, 999999);
 
 ?>
+
+
 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
+    <a class="dc-btn dc-btn-sm" href="<?php Doctreat_Profile_Menu::doctreat_profile_menu_link('history-regular', $user_identity,'','listing'); ?>">
+        <?php esc_html_e('Retour au tableau de bord des historiques', 'doctreat'); ?> 
+    </a> 
+    <br>
+    <br>
 	<div class="dc-dashboardbox dc-apointments-wrap dc-apointments-wraptest">	
 
 			<div class="dc-apointments-holder dc-apointments-holder-test">
@@ -79,7 +86,7 @@ $height		= 40;
               
               ?>
 		<div class="dc-searchresult-head">
-			<div class="dc-title"><h3><?php esc_html_e('Recent Appointments','doctreat');?></h3></div>
+			<div class="dc-title"><h3><?php esc_html_e('Les rendez-vous du plus recent au plus encien','doctreat');?></h3></div>
 		</div>
         
 		<?php if( $query->have_posts() ){ ?>
@@ -108,33 +115,7 @@ $height		= 40;
 						$ap_date		= get_post_meta( $post->ID,'_appointment_date',true);
                         $ap_date		= !empty( $ap_date ) ? strtotime($ap_date) : '';
                         
-                       
-                        // $today_date	= date('2020-10-26');
-                         $today_date	= date('Y-m-d');
-                       
-                        $today_day     = date_i18n('d',$today_date);
-                        $today_month     = date_i18n('m',$today_date);
-                        $today_year     = date_i18n('Y',$today_date);
-
-                       $ap_day  = date_i18n('d',$ap_date);
-                       $ap_month  = date_i18n('m',$ap_date);
-                       $ap_year  = date_i18n('Y',$ap_date);
-                       //echo $ap_month;
-                         if( ($today_year ==  $ap_year)  ){
-                            $diff_month = $today_month - $ap_month;
-                            $diff_days = $today_day - $ap_day;
-                            echo  $diff_month.'  ';
-                            echo  $diff_days.'  ';
-                           //$day = ($current_day - $ap_day) 
-                           //echo $today_day.'  '; 
-                           //echo $ap_day.'  '; 
-                            //echo $current_month.'  ';
-                            //echo $day;
-                           // echo $ap_year.'  ';
-                            //echo date_i18n('d',$ap_date);
-                           
-                         }
-                       
+                      
 						?>
          
 						<div class="dc-recentapoint">
