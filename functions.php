@@ -48,7 +48,21 @@ if( !function_exists('doctreat_load_child_text_domain') ){
 	}
 }
 
-
+require_once ( get_stylesheet_directory() . '/includes/functions.php'); //Theme functionalty
 require_once ( get_stylesheet_directory() . '/directory/front-end/class-dashboard-menu.php');
 require_once ( get_stylesheet_directory() . '/directory/front-end/functions.php');
 require_once ( get_stylesheet_directory() . '/directory/front-end/ajax-hooks.php');
+require_once ( get_stylesheet_directory() . '/directory/front-end/hooks.php');
+
+if( class_exists( 'DoctreatGlobalSettings' ) ) {
+    require_once ( get_stylesheet_directory() . '/includes/class-pdf.php'); //Hooks
+}
+
+// add_role(
+// 	'custom_editor',
+// 	__( 'Pharmacies' ),
+// 	array(
+// 	'read'         => true,  // true allows this capability
+// 	'edit_posts'   => true,
+// 	)
+// 	);

@@ -3975,16 +3975,30 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 								<input type="hidden" name="pdf_booking_id" value="<?php echo intval($booking_id);?>">
 								<a href="javascript:;" onclick="document.forms['download_pdf'].submit(); return false;" class="dc-btn dc-pdfbtn"><i class="ti-download"></i></a>
 							</form>
+
+							
+							
 						<?php } ?>
 					</div>
 				<?php } else if( $is_dashboard === 'yes' && !empty( $current_user_type ) && $current_user_type === 'regular_users' && apply_filters('doctreat_is_feature_allowed', 'dc_chat', $doctor_user_id) === true ){?>
 					<div class="dc-btnarea">
 						<a href="javascript:;" data-toggle="modal" data-target="#send_message" class="dc-btn dc-send-message dc-msgbtn"><i class="ti-email"></i></a>
-						<?php if( !empty($prescription_id) ){ ?>
+						
+						<?php if( !empty($prescription_id) ){ 
+				
+							
+							?>
+						
 							<form method="post" name="download_pdf">
 								<input type="hidden" name="pdf_booking_id" value="<?php echo intval($booking_id);?>">
 								<a href="javascript:;" onclick="document.forms['download_pdf'].submit(); return false;" class="dc-btn dc-pdfbtn"><i class="ti-download"></i></a>
 							</form>
+		
+							<div class="dc-rightarea">
+							
+							     <a href="javascript:;" data-toggle="modal" data-target="#send_medication" class="dc-btn dc-btn-sm dc-rightarea ">Envoyer l'ordonnance a une pharmacie</a>
+							</div>
+							
 						<?php } ?>
 					</div>
 				<?php } ?>
@@ -4008,6 +4022,99 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 						<div class="modal-footer dc-modal-footer">
 							<a href="javascript:;" class="btn dc-btn btn-primary dc-send_message-btn" data-id="<?php echo intval($booking_id);?>"><?php esc_html_e('Send','doctreat');?></a>
 						</div>			
+					</div>
+				</div>
+			</div> 
+
+			<!-- ModalMedication -->
+			<div class="modal fade dc-appointmentpopup dc-feedbackpopup dc-bookappointment" role="dialog" id="send_medication"> 
+				<div class="modal-dialog" role="document">
+					<div class="dc-modalcontent modal-content">	
+						<div class="dc-popuptitle">
+							<h3><?php esc_html_e('Envoyez votre ordonnance','doctreat');?></h3>
+							<a href="javascript:;" class="dc-closebtn close dc-close" data-dismiss="modal" aria-label="<?php esc_attr_e('Close','doctreat');?>"><i class="ti-close"></i></a>
+						</div>
+						<div class="dc-formtheme dc-vistingdocinfo">
+						<?php
+						//$location 			= apply_filters('doctreat_get_tax_query',array(),'locations','');
+						//$pharmacie =  get_post_meta($pharmacie_id, tue);
+                         $prescription	= get_post_meta( $prescription_id, '_detail', true );
+						 $medicine			= array();
+						 $medicine			= !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
+						 if( !empty($medicine) ){
+							foreach( $medicine as $key => $values ){
+								$name_val				= !empty($values['name']) ? $values['name'] : '';
+								$medicine_types_val		= !empty($values['medicine_types']) ? $values['medicine_types'] : '';
+								$medicine_duration_val	= !empty($values['medicine_duration']) ? $values['medicine_duration'] : '';
+								$medicine_usage_val		= !empty($values['medicine_usage']) ? $values['medicine_usage'] : '';
+								$detail_val				= !empty($values['detail']) ? $values['detail'] : '';
+
+									//global $current_user,$theme_settings;
+								//$user_identity 	 	= $current_user->ID;
+								//$linked_profile  	= doctreat_get_linked_profile_id($user_identity);
+								//$icon				= 'lnr lnr-bubble';
+
+
+							
+								//$doctors_ids = array_unique($all_doctors_ids);
+								//$count_doctors = count ($doctors_ids);
+
+								//var_dump($post->post_name;);
+								?>
+							
+						
+							
+							<form class="dc-medication-form" method="post">
+					
+							
+									<?php
+								}}
+
+								$args = array(
+									'posts_per_page' 	=> -1,
+									'post_type' 		=> 'pharmacies',
+									'post_status'    =>  'publish',
+									//'post_author'			=> '_pharmacie_id'
+								);
+						$query 	= new WP_Query( $args );
+						$posts = $query->posts;
+						//$all_doctors_ids = array();
+						var_dump($posts);
+								      //echo do_shortcode('[contact-form-7 id="1548" title="ordonnance"]');
+								 // [contact-form-7 id="1548" title="ordonnance"]
+							?>
+						          <div class="dc-select">
+										<select name="order" class="order">
+										<option value="ASC"><?php esc_html_e('Choisir une pharmacie','doctreat');?></option>
+										<?php 
+										    foreach( $posts as $post ) {
+												//$post->post_name;
+												$pharmacie = $post->post_title;
+												//$all_doctors_ids[] = get_post_meta( $post->ID,'_pharmacie_id',true);
+											
+										?>
+											
+											
+											<option value="DESC" <?php echo $post->id;?>><?php echo $pharmacie;?></option>
+											<?php
+										}
+										?>
+										</select>
+
+									</div>
+							<fieldset>
+								<div class="form-group">
+									<form method="post" name="downloa_pdf">
+									<input type="hidden" name="pdf_doctor_id" value="<?php echo intval($booking_id);?>">
+									<a href="javascript:;" onclick="document.forms['downloa_pdf'].submit(); return false;" class="dc-btn dc-pdfbtn"><i class="ti-download"></i></a>
+									</form>
+								</div>
+							</fieldset>
+						</div>
+						<div class="modal-footer dc-modal-footer">
+							<a href="javascript:;" class="btn dc-btn btn-primary dc-send_medication" data-id="<?php echo intval($booking_id);?>"><?php esc_html_e('Envoyer','doctreat');?></a>
+						</div>	
+						</form>		
 					</div>
 				</div>
 			</div> 
@@ -4887,4 +4994,384 @@ if (!function_exists('doctreat_calcute_price')) {
 
     add_action('wp_ajax_doctreat_calcute_price', 'doctreat_calcute_price');
     add_action('wp_ajax_nopriv_doctreat_calcute_price', 'doctreat_calcute_price');
+}
+
+
+
+/**
+ * load doctor 
+ *
+ * @throws error
+ * @author Amentotech <theamentotech@gmail.com>
+ * @return 
+ */
+
+if ( !function_exists( 'doctreat_get_doctor_byID' ) ) {
+
+	function doctreat_get_doctor_byID() {
+		global $current_user,$theme_settings;
+		$json				= array();
+		$doctor_id			= !empty( $_POST['id'] ) ? intval( $_POST['id'] ) : '';
+		
+		$is_dashboard		= !empty( $_POST['dashboard'] ) ? esc_html( $_POST['dashboard'] ) : '';
+		$url_identity		= $current_user->ID;
+		
+		$width		= 100;
+		$height		= 100;
+		$current_user_type	= apply_filters('doctreat_get_user_type', $url_identity );
+		
+		if(!empty($doctor_id)) {
+			ob_start();
+			
+			
+		    $user_types		= doctreat_list_user_types();
+			//$content		= get_post_field('post_content',$doctor_id );
+			//$contents		= !empty( $content ) ? $content : '';
+			//$booking_slot	= get_post_meta($booking_id,'_booking_slot', true);
+			//$booking_slot	= !empty( $booking_slot ) ? $booking_slot : '';
+			// $services		= get_post_meta($doctor_id,'_doctor_service', true);
+			// $services		= !empty( $services ) ? $services : array();
+			$post_auter		= get_post_field( 'post_author',$doctor_id );
+           
+			//$booking_user_type		= get_post_meta( $booking_id,'_user_type',true);
+			$thumbnail				= '';
+
+			//$booking_array	= get_post_meta( $booking_id, '_am_booking',true);
+			//$total_price	= !empty($booking_array['_price']) ? $booking_array['_price'] : 0;
+			//$consultant_fee	= !empty($booking_array['_consultant_fee']) ? $booking_array['_consultant_fee'] : 0;
+			//if( empty($booking_user_type) || $booking_user_type ==='doctors' ){
+				$link_id		= doctreat_get_linked_profile_id( $post_auter );
+				$thumbnail      = doctreat_prepare_thumbnail($link_id, $width, $height);
+				$user_type		= apply_filters('doctreat_get_user_type', $post_auter );
+				$user_type		= $user_types[$user_type];
+				$user_type		= !empty( $user_type ) ? $user_type : '';
+				$location		= doctreat_get_location($link_id);
+				$country		= !empty( $location['_country'] ) ? $location['_country'] : '';
+			//} else {
+				//$am_booking	= get_post_meta( $booking_id,'_am_booking',true);
+				//$user_type	= !empty($am_booking['_user_details']['user_type']) ? $am_booking['_user_details']['user_type'] : '';
+		//	}
+
+			 $name = doctreat_full_name( $doctor_id );
+			 
+			 $user_id            = doctreat_get_linked_profile_id($doctor_id,'post');
+			 $user_detail        = !empty($user_id) ? get_userdata( $user_id ) : array();
+
+				// var_dump($user_detail->user_email);
+				 
+	       // $email		= get_post_meta($doctor_id,'email', true);
+			//$phone		= get_post_meta($doctor_id,'phone', true);
+			$phones	= doctreat_get_post_meta( $doctor_id,'am_phone_numbers');
+
+			//$name		= !empty($name) ? $name : '';
+			//$email		= !empty($email) ? $email : '';
+			//$phone		= !empty($phone) ? $phone : '';
+            
+			//$relation		= doctreat_patient_relationship();
+			$title				= get_the_title( $hospital_id );
+			$location_title		= !empty( $title ) ? $title : '';
+
+			$am_specialities	= doctreat_get_post_meta( $doctor_id,'am_specialities');	
+			// $am_specialities 		= doctreat_get_post_meta( $doctor_id,'am_specialities');
+			// $am_specialities		= !empty( $am_specialities ) ? $am_specialities : array();
+
+			
+			// $services		= get_post_meta($booking_id,'_booking_service', true);
+			// $services		= !empty( $services ) ? $services : array();
+			      // var_dump($am_specialities);
+			//$google_calender		= '';
+		//	$yahoo_calender			= '';
+			//$appointment_date		= get_post_meta($booking_id,'_appointment_date', true);
+			
+			// if( !empty( $appointment_date ) && !empty( $tine_slot[0] ) && !empty( $tine_slot[1] ) ) {
+			// 	$startTime 	= new DateTime($appointment_date.' '.$tine_slot[0]);
+			// 	$startTime	= $startTime->format('Y-m-d H:i');
+
+			// 	$endTime 	= new DateTime($appointment_date.' '.$tine_slot[1]);
+			// 	$endTime	= $endTime->format('Y-m-d H:i');
+
+			// 	$google_calender	= doctreat_generate_GoogleLink($name,$startTime,$endTime,$contents,$location_title);
+			// 	$yahoo_calender		= doctreat_generate_YahooLink($name,$startTime,$endTime,$contents,$location_title);
+			// }
+			//$doctor_user_id			= doctreat_get_linked_profile_id($doctor_id,'post');
+
+			if( !empty($user_type) && $user_type === 'patients'){
+				$user_type_title	= esc_html__('patient','doctreat');
+			} else {
+				$user_type_title	= $user_type;
+			}
+			//var_dump($doctor_id);
+			//$prescription_id	= get_post_meta( $booking_id, '_prescription_id', true );
+			//$prescription_url	= !empty($booking_id) ? Doctreat_Profile_Menu::doctreat_profile_menu_link('prescription', $current_user->ID,true,'view').'&booking_id='.$booking_id : '';
+			?>
+			<div class="dc-user-header">
+				<?php if( !empty( $thumbnail ) ){?>
+					<div>
+						<figure class="dc-user-img">
+							<img src="<?php echo esc_url( $thumbnail );?>" alt="<?php echo esc_attr( $name );?>">
+						</figure>
+					</div>
+				<?php } ?>
+				<div class="dc-title">
+					<span class="pateint-details"><?php echo esc_html( ucfirst( $user_type_title ) );?></span>
+					<?php if( !empty( $name ) ){?>
+						<h3>
+							<?php 
+								echo esc_html( $name ); 
+								// if(!empty($post_auter) && $post_auter !=1 ){
+								// 	doctreat_get_verification_check($post_auter);
+								// }
+							?>
+						</h3>
+						<?php if( !empty($user_detail) ){?>
+							<a href="mailto:<?php echo esc_attr($user_detail->user_email);?>"> <?php echo esc_html($user_detail->user_email);?></a>
+						<?php } ?>
+						<?php foreach( $phones as $phone ){?>
+							<a href="tel:<?php echo esc_attr($phone);?>"> <?php echo esc_html($phone);?></a>
+						<?php } ?>
+					<?php } ?>
+					<?php if(!empty($post_auter) && $post_auter !=1 ){ ?>
+						<span><?php echo esc_html( $country );?></span>
+					<?php } ?>
+				</div>
+				<?php if( !empty( $post_status ) ){ ?>
+					<div class="dc-status-test">
+						<div class="dc-rightarea dc-status">
+							<span><?php echo esc_html(ucwords( $post_status ) );?></span>
+							<em><?php esc_html_e('Status','doctreat');?></em>
+						</div>
+					</div>
+				<?php } ?>
+			</div>
+			
+			<?php
+			if( !empty( $am_specialities ) ) {?>
+<div class="dc-services-holder dc-aboutinfo">
+	<div class="dc-infotitle">
+		<h3><?php esc_html_e('Offered Services','doctreat');?></h3>
+	</div>
+	<div id="dc-accordion" class="dc-accordion" role="tablist" aria-multiselectable="true">
+		<?php 
+			foreach ( $am_specialities as $key => $specialities) { 
+				$specialities_title	= doctreat_get_term_name($key ,'specialities');
+				$logo 				= get_term_meta( $key, 'logo', true );
+				$logo				= !empty( $logo['url'] ) ? $logo['url'] : '';
+				$services			= !empty( $specialities ) ? $specialities : '';
+				$service_count		= !empty($services) ? count($services) : 0;
+			?>
+			<div class="dc-panel">
+				<?php if( !empty( $specialities_title ) ){?>
+					<div class="dc-paneltitle">
+						<?php if( !empty( $logo ) ){?>
+							<figure class="dc-titleicon">
+								<img src="<?php echo esc_url( $logo );?>" alt="<?php echo esc_attr( $specialities_title );?>">
+							</figure>
+						<?php } ?>
+						<span>
+							<?php echo esc_html( $specialities_title );?>
+							 <?php if( !empty( $service_count ) ){ ?>
+								<em><?php echo intval($service_count);?>&nbsp;<?php esc_html_e( 'Service(s)','doctreat');?></em>
+							 <?php } ?>
+						 </span>
+					</div>
+				<?php } ?>
+				
+				<?php if( !empty( $services ) ){ ?>
+					<div class="dc-panelcontent">
+						<div class="dc-childaccordion" role="tablist" aria-multiselectable="true">
+							<?php 
+								foreach ( $services as $key => $service ) {
+									$service_title	= doctreat_get_term_name($key ,'services');
+									$service_title	= !empty( $service_title ) ? $service_title : '';
+									$service_price	= !empty( $service['price'] ) ? $service['price'] : '';
+									$description	= !empty( $service['description'] ) ? $service['description'] : '';
+								?>
+								<div class="dc-subpanel">
+									<?php if( !empty( $service_title ) ) { ?>
+										<div class="dc-subpaneltitle">
+											<span>
+												<?php echo esc_html( $service_title );?>
+												<?php if( !empty( $service_price ) ) {?><em><?php doctreat_price_format($service_price); ?></em><?php } ?>
+											</span>
+										</div>
+									<?php } ?>
+									<?php if( !empty( $description ) ){?>
+										<div class="dc-subpanelcontent">
+											<div class="dc-description">
+												<p><?php echo nl2br( $description );?></p>
+											</div>
+										</div>
+									<?php } ?>
+								</div>
+							<?php } ?>
+						</div>
+					</div>
+				<?php } ?>
+			</div>	
+		<?php } ?>
+	</div>
+</div>
+<?php } ?>
+<?php
+	$inline_script = 'jQuery(document).on("ready", function() { 
+		themeAccordion();
+		childAccordion(); });';
+	wp_add_inline_script( 'doctreat-callback', $inline_script, 'after' );	
+	
+			$booking				= ob_get_clean();
+			$json['type'] 			= 'success';
+			$json['booking_data'] 	= $booking;
+		} else{
+			$json['type'] 		= 'error';
+			$json['message'] 	= esc_html__('No more review', 'doctreat');
+			$json['reviews'] 	= 'null';
+		}
+		wp_send_json($json);			
+	}
+
+	
+
+	add_action( 'wp_ajax_doctreat_get_doctor_byID', 'doctreat_get_doctor_byID' );
+	add_action( 'wp_ajax_nopriv_doctreat_get_doctor_byID', 'doctreat_get_doctor_byID' );
+}
+
+
+// Update prescription after sending medication by the patient
+
+if (!function_exists('doctreat_update_medication')) {
+
+    function doctreat_update_medication() {
+		global $current_user;
+		
+		if( function_exists('doctreat_is_demo_site') ) { 
+			doctreat_is_demo_site() ;
+		}
+		
+		$json		= array();
+		$fields		= array(
+						//'patient_name' 		=> esc_html('Name is required.','doctreat'),
+						//'medical_history' 	=> esc_html('Medical history is required.','doctreat'),
+						'pharmacie_id' 		=> esc_html('Pharmacie obligatoire.','doctreat')
+					);
+		
+		foreach($fields as $key => $val ) {
+			if( empty( $_POST[$key] ) ){
+				$json['type'] 		= 'error';
+				$json['message'] 	= $val;        
+				wp_send_json($json);
+			 }
+		}
+		
+		 $pharmacie_id				= !empty($_POST['pharmacie_id']) ? sanitize_text_field($_POST['pharmacie_id']) : '';
+		// $booking_id				= !empty($_POST['booking_id']) ? sanitize_text_field($_POST['booking_id']) : '';
+		// $patient_name			= !empty($_POST['patient_name']) ? sanitize_text_field($_POST['patient_name']) : '';
+		// $phone					= !empty($_POST['phone']) ? sanitize_text_field($_POST['phone']) : '';
+		// $age					= !empty($_POST['age']) ? sanitize_text_field($_POST['age']) : '';
+		// $address				= !empty($_POST['address']) ? sanitize_text_field($_POST['address']) : '';
+		// $location				= !empty($_POST['location']) ? doctreat_get_term_by_type('slug',sanitize_text_field($_POST['location']),'locations' ) : '';
+		// $gender					= !empty($_POST['gender']) ? sanitize_text_field($_POST['gender']) : '';
+		// $marital_status			= !empty($_POST['marital_status']) ? ($_POST['marital_status']) : '';
+		// $childhood_illness		= !empty($_POST['childhood_illness']) ? ($_POST['childhood_illness']) : array();
+		// $laboratory_tests		= !empty($_POST['laboratory_tests']) ? ($_POST['laboratory_tests']) : array();
+		// $vital_signs			= !empty($_POST['vital_signs']) ? ($_POST['vital_signs']) : '';
+		// $medical_history		= !empty($_POST['medical_history']) ? sanitize_text_field($_POST['medical_history']) : '';
+		// $medicine				= !empty($_POST['medicine']) ? ($_POST['medicine']) : array();
+	
+		// $diseases				= !empty($_POST['diseases']) ? ($_POST['diseases']) : array();
+		// $medical_history		= !empty($_POST['medical_history']) ? sanitize_textarea_field($_POST['medical_history']) : '';
+		
+		// $doctor_id				= get_post_meta( $booking_id, '_doctor_id', true );
+		// $doctor_id				= doctreat_get_linked_profile_id($doctor_id,'post');
+		// $hospital_id			= get_post_meta( $booking_id, '_hospital_id', true );
+		
+		// $prescription_id		= get_post_meta( $booking_id, '_prescription_id', true );
+		// $am_booking				= get_post_meta( $booking_id, '_am_booking', true );
+		// $patient_id				= get_post_field( 'post_author', $booking_id );
+
+		// $myself					= !empty($am_booking['myself']) ? $am_booking['myself'] : '';
+
+		if( !empty($patient_id) && ($patient_id != $current_user->ID) ){
+			$json['type'] 		= 'error';
+			$json['message'] 	= esc_html__('You are not allwod to add prescription.','doctreat');        
+			wp_send_json($json);
+		}
+
+		$post_array					= array();
+		//$post_array['post_title']	=	$patient_name;
+		if( !empty($prescription_id) ){
+			$post_array['post_type']	= 'prescription';
+			$post_array['post_status']	= 'publish';
+			$prescription_id = wp_insert_post($post_array);
+		} else {
+			wp_update_post($post_array);
+		}
+
+		// $post_meta						= array();
+		// if( !empty($laboratory_tests) ){
+		// 	$laboratory_tests_array	= array();
+		// 	foreach($laboratory_tests as $laboratory_test ){
+		// 		$term 	= doctreat_get_term_by_type( 'id',$laboratory_test, 'laboratory_tests','id' );
+		// 		if ( !empty($term) ) {
+		// 			$laboratory_tests_id	= $laboratory_test;
+		// 		} else {
+		// 			wp_insert_term($laboratory_test,'laboratory_tests');
+		// 			$term 					= doctreat_get_term_by_type( 'name',$laboratory_test, 'laboratory_tests','id' );
+		// 			$laboratory_tests_id	= !empty($term) ? $term : '';
+		// 		}
+
+		// 		if( !empty( $laboratory_tests_id ) ){
+		// 			$laboratory_tests_array[] = $laboratory_tests_id;
+		// 		}
+		// 	}
+		// 	if( !empty( $laboratory_tests_array ) ){
+		// 		wp_set_post_terms( $prescription_id, $laboratory_tests_array, 'laboratory_tests' );
+		// 	}
+		// 	$post_meta['_laboratory_tests']		= $laboratory_tests_array;
+		// }
+		
+		// $post_meta['_patient_name']		= $patient_name;
+		// $post_meta['_phone']			= $phone;
+		// $post_meta['_age']				= $age;
+		// $post_meta['_address']			= $address;
+		// $post_meta['_location']			= $location;
+		// $post_meta['_gender']			= $gender;
+
+		// $post_meta['_marital_status']		= $marital_status;
+		// $post_meta['_childhood_illness']	= $childhood_illness;
+		// $post_meta['_vital_signs']			= $vital_signs;
+		// $post_meta['_medical_history']		= $medical_history;
+		// $post_meta['_medicine']				= $medicine;
+		// $post_meta['_diseases']				= $diseases;
+
+		// $signs_keys		= !empty($vital_signs) ? array_keys($vital_signs) : array();
+		// $signs_keys		= !empty($signs_keys) ? array_unique($signs_keys): array();
+		
+		wp_set_post_terms( $prescription_id, array($pharmacie_id), 'pharmacie' );
+		// wp_set_post_terms( $prescription_id, $signs_keys, 'vital_signs' );
+		// wp_set_post_terms( $prescription_id, $childhood_illness, 'childhood_illness' );
+		// wp_set_post_terms( $prescription_id, array($marital_status), 'marital_status' );
+		// wp_set_post_terms( $prescription_id, $diseases, 'diseases' );
+		
+		// update_post_meta( $prescription_id, '_hospital_id',$hospital_id );
+		// update_post_meta( $prescription_id, '_medicine',$medicine );
+		// update_post_meta( $prescription_id, '_doctor_id',$doctor_id );
+		// update_post_meta( $prescription_id, '_booking_id',$booking_id );
+		// update_post_meta( $prescription_id, '_patient_id',$patient_id );
+		// update_post_meta( $prescription_id, '_myself',$myself );
+		// update_post_meta( $prescription_id, '_detail',$post_meta );
+		
+		// update_post_meta( $prescription_id, '_childhood_illness',$childhood_illness );
+		// update_post_meta( $prescription_id, '_marital_status',$marital_status );
+
+		// update_post_meta( $booking_id, '_prescription_id',$prescription_id );
+
+		$json['type'] 	 	= 'success';
+		$json['message'] 	= esc_html__('Prescription is updated successfully.', 'doctreat');
+		$json['url']		= Doctreat_Profile_Menu::doctreat_profile_menu_link('appointment', $current_user->ID,true,'listing',$booking_id);
+		wp_send_json( $json );
+
+    }
+
+    add_action('wp_ajax_doctreat_update_medication', 'doctreat_update_medication');
+    add_action('wp_ajax_nopriv_doctreat_update_medication', 'doctreat_update_medication');
 }

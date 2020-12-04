@@ -14,23 +14,25 @@ $linked_profile  	= doctreat_get_linked_profile_id($user_identity);
 $icon				= 'lnr lnr-bubble';
 
 $appointments_img	= !empty( $theme_settings['total_appointments']['url'] ) ? $theme_settings['total_appointments']['url'] : '';
-
 $args = array(
 			'posts_per_page' 	=> -1,
-			'post_type' 		=> 'doctors',
-			//'author'			=> $user_identity,
-			'orderby'			=> $user_identity,
-			//'post_status' 		=> array('publish','pending'),
-           // 'suppress_filters'  => false,
-            
+			'post_type' 		=> 'booking',
+            'author'			=> $user_identity,
+           // 'post_status' 		=> array('publish','pending','cancelled'),
 		);
-$query 		= new WP_Query( $args );
-
-$count_post = $query->found_posts;
+$query 	= new WP_Query( $args );
+$posts = $query->posts;
+$all_doctors_ids = array();
+foreach( $posts as $post ) {
+	$all_doctors_ids[] = get_post_meta( $post->ID,'_doctor_id',true);
+}
+$doctors_ids = array_unique($all_doctors_ids);
+$count_doctors = count ($doctors_ids);
 ?>
+
 <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3">
-	<div class="dc-insightsitem dc-dashboardbox">
-		<span><em class="dcunread-count"><?php echo intval( $count_post );?></em></span>
+   <div class="dc-insightsitem dc-dashboardbox">
+		<span><em class="dcunread-count"><?php echo intval( $count_doctors );?></em></span>
 		<figure class="dc-userlistingimg">
 			
 			<?php if( !empty( $appointments_img ) ) {?>
@@ -41,11 +43,14 @@ $count_post = $query->found_posts;
 		</figure>
 		<div class="dc-insightdetails">
 			<div class="dc-title">
-				<h3><?php esc_html_e('Appointments', 'doctreat'); ?></h3>
-				<a href="<?php Doctreat_Profile_Menu::doctreat_profile_menu_link('history-appointment-listing', $user_identity,'','listing'); ?>">
-					<?php esc_html_e('Voir historique doctors', 'doctreat'); ?> 
+				<h3><?php esc_html_e('Docteurs', 'doctreat'); ?></h3>
+				<a href="<?php Doctreat_Profile_Menu::doctreat_profile_menu_link('history-doctors-listing', $user_identity,'','listing'); ?>">
+					<?php esc_html_e('Voir historique', 'doctreat'); ?> 
 				</a> 
 			</div>													
 		</div>	
-	</div>
+    </div>
+  
 </div>
+
+

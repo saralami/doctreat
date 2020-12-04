@@ -23,7 +23,7 @@ $doctor_booking_option			= '';
 if( function_exists( 'doctreat_get_booking_oncall_doctors_option' ) ) {
 	$doctor_booking_option	= doctreat_get_booking_oncall_doctors_option();
 }
-
+//var_dump($user_type);
 if( have_posts() ) {
 	while ( have_posts() ) : the_post();
 	the_content();
@@ -36,7 +36,7 @@ if( have_posts() ) {
 }
 
 if ( is_user_logged_in() 
-	&& ( $user_type === 'doctors' || $user_type === 'hospitals' || $user_type === 'regular_users' ) ) {
+	&& ( $user_type === 'doctors' || $user_type === 'hospitals' || $user_type === 'regular_users' || $user_type === 'pharmacies' ) ) {
 	Doctreat_Profile_Menu::doctreat_profile_menu_left(); 
 
 	if( empty( $is_verified ) || $is_verified === 'no' ){
@@ -126,6 +126,10 @@ if ( is_user_logged_in()
 				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'history-doctors-listing' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/regular_users/history/dashboard', 'history-doctors-listing');
 				} 
+
+				//Fin history
+                //Pharmacie
+				
 				
 				else if ( !empty($ref) && $_GET['ref'] === 'account-settings' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/dashboard', 'account-manage');
@@ -136,6 +140,7 @@ if ( is_user_logged_in()
 						 && ( $user_type === 'doctors' && apply_filters('doctreat_is_feature_allowed', 'dc_chat', $user_identity) === true ) ) 
 						|| $user_type === 'hospitals' 
 						|| $user_type === 'regular_users'
+					
 					) {
 						get_template_part('directory/front-end/templates/dashboard', 'messaging');
 					}

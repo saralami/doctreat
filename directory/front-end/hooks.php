@@ -736,13 +736,16 @@ if (!function_exists('doctreat_get_user_type')) {
 
     function doctreat_get_user_type($user_identity) {
         if (!empty($user_identity)) {
-            $data = get_userdata($user_identity);
+			$data = get_userdata($user_identity);
+		//	var_dump($data);
             if (!empty($data->roles[0]) && $data->roles[0] === 'doctors') {
                 return 'doctors';
             } else if (!empty($data->roles[0]) && $data->roles[0] === 'hospitals') {
                 return 'hospitals';
             } else if (!empty($data->roles[0]) && $data->roles[0] === 'regular_users') {
                 return 'regular_users';
+			} else if (!empty($data->roles[0]) && $data->roles[0] === 'pharmacies') {
+                return 'pharmacies';
             } else{
                 return false;
             }

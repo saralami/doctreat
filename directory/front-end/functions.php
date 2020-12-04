@@ -554,6 +554,10 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 				'title' => esc_html__('Medical History','doctreat'),
 				'type'	=> 'regular_users'
 			),
+			'pharmacie'	=> array(
+				'title' => esc_html__('Ordonnance','doctreat'),
+				'type'	=> 'pharmacies'
+			),
 			'logout'	=> array(
 				'title' => esc_html__('Logout','doctreat'),
 				'type'	=> 'none'
@@ -712,10 +716,11 @@ if( !function_exists(  'doctreat_get_username' ) ) {
         $userdata = get_userdata($user_id);
         $user_role = '';
         if (!empty($userdata->roles[0])) {
+			
             $user_role = $userdata->roles[0];
         }
-
-        if (!empty($user_role) && $user_role === 'doctors' || $user_role === 'hospitals' || $user_role === 'regular_users' ) {
+       
+        if (!empty($user_role) && $user_role === 'doctors' || $user_role === 'hospitals' || $user_role === 'regular_users' || $user_role === 'pharmacies' ) {
 			$linked_profile   	= doctreat_get_linked_profile_id($user_id);
 			if( !empty( $linked_profile ) ){
 				return doctreat_full_name($linked_profile);
@@ -992,7 +997,7 @@ if( !function_exists(  'doctreat_list_services_with_specility' ) ) {
 						$service_index	= 0;
 						foreach( $values as $index => $val ) {
 							$service_index	++;
-							$service_title							= doctreat_get_term_name($index ,'services');
+							$service_title	= doctreat_get_term_name($index ,'services');
 							$services_array[$service_index]['title']		= $service_title;
 							$services_array[$service_index]['service_id']	= $index;
 							$services_array[$service_index]['price']		= !empty($val['price']) ? $val['price'] : '';
@@ -1728,7 +1733,8 @@ if ( ! function_exists( 'doctreat_list_user_types' ) ) {
 		$user_types_names = array(
 						'hospitals'		=> esc_html__("Hospital",'doctreat'),
 						'doctors'		=> esc_html__("Doctor",'doctreat'),
-						'regular_users' => esc_html__("Patient",'doctreat')
+						'regular_users' => esc_html__("Patient",'doctreat'),
+						'pharmacies' => esc_html__("Pharmacie",'doctreat') 
 					);
 		
 		if( !empty($system_access) ){
@@ -2620,10 +2626,10 @@ if( !function_exists('doctreat_pdf')){
 				}
 				*{box-sizing: border-box;}
 				header {
-					top: -30px;
+					top: -50px;
 					left: 0px;
 					right: 0px;
-					height: 180px;
+					height: 150px;
 					position:absolute;
 					border-radius:5px;
 					font-family: sans-serif;
@@ -2636,7 +2642,7 @@ if( !function_exists('doctreat_pdf')){
 			</style>
 		</head>
 		<body style="font-family: sans-serif; margin-top:0;padding-top:30px;position:relative;">
-			<header><img src="'.get_template_directory().'/images/pdf/shape-02.png" style=" display:block; position:absolute;top:0px;right:0;width:100%; height:180px;"></header>
+			<header><img src="'.get_template_directory().'/images/pdf/shape-02.png" style=" display:block; position:absolute;top:0px;right:0;width:100%; height:100px;"></header>
 			<div style="width:100%; display: inline-block; text-align:center; font-family: sans-serif;padding:0 0 30px;">
 				<table style="width:96%; margin:0 auto 0;">
 					<tr style="text-align:left;">
@@ -2835,6 +2841,280 @@ if( !function_exists('doctreat_pdf')){
 		return $html;
 	}
 	add_filter('doctreat_pdf', 'doctreat_pdf',10,1);
+}
+
+if( !function_exists('medecine_pdf')){
+	function medecine_pdf($booknig_id=''){
+		global $theme_settings;
+		$border_image 		= get_template_directory().'/images/pdf/shape-02.png';
+		$logo_image 		= !empty($theme_settings['pdf_logo']) ? $theme_settings['pdf_logo']['url'] : '';
+		$prescription_id	= get_post_meta( $booknig_id, '_prescription_id', true );
+		$doctor_id			= get_post_meta( $prescription_id, '_doctor_id', true );
+		$doctor_profile_id	= !empty($doctor_id) ? doctreat_get_linked_profile_id($doctor_id) : '';
+
+		$doctordata 		= get_userdata($doctor_id);
+		$doctor_email		= !empty($doctordata->user_email) ? $doctordata->user_email : '';
+
+		$doctor_name		= doctreat_full_name($doctor_profile_id);
+		$doctor_name		= !empty($doctor_name) ? $doctor_name : '';
+		$system_access		= doctreat_theme_option('system_access');
+		$web_url			= '';
+		
+		if( !empty($system_access) ){
+			$hospital_location_id	= get_post_meta( $doctor_profile_id, '_doctor_location',  true);
+			$mobile_number			= doctreat_get_post_meta( $doctor_profile_id,'am_mobile_number' );
+			$user_details			= !empty($doctor_id) ?  get_userdata($doctor_id) : '';
+		} else {
+			$hospital_location_id	= get_post_meta( $prescription_id, '_hospital_id',  true);
+			$mobile_number			= doctreat_get_post_meta( $hospital_location_id,'am_mobile_number' );
+			$web_url				= doctreat_get_post_meta( $hospital_location_id,'am_web_url' );
+			$hospital_id			= !empty($hospital_location_id) ?  doctreat_get_linked_profile_id($hospital_location_id,'post') : '';
+			$user_details			= !empty($hospital_id) ?  get_userdata($hospital_id) : '';
+			
+		}
+
+		if( !empty($hospital_location_id) && has_post_thumbnail($hospital_location_id) ){
+			$attachment_id 			= get_post_thumbnail_id($hospital_location_id);
+			$image_url 				= !empty( $attachment_id ) ? wp_get_attachment_url( $attachment_id, 'doctreat_doctors_type', true ) : '';
+			$logo_image				= !empty($image_url) ? wp_make_link_relative($image_url) : $logo_image;
+			$logo_image				= get_attached_file($attachment_id);
+			
+		}
+
+		$email_info				= !empty($user_details->user_email) ? $user_details->user_email : '';
+
+		$prescription_details	= get_post_meta( $prescription_id, '_detail', true );
+		$prescription_details	= !empty($prescription_details) ? $prescription_details : array();
+
+		$medicine				= !empty($prescription_details['_medicine']) ? $prescription_details['_medicine'] : array();
+
+		$hospital_location_id	= !empty($hospital_location_id) ? $hospital_location_id : '';
+		$location_title			= !empty($hospital_location_id) ? get_the_title($hospital_location_id) : '';
+
+		$address		= get_post_meta( $hospital_location_id , '_address',true );
+		$address		= !empty( $address ) ? $address : '';
+
+		$laboratory_tests_obj_list 	= get_the_terms( $prescription_id, 'laboratory_tests' );
+		$laboratory_tests_name		= join(', ', wp_list_pluck($laboratory_tests_obj_list, 'name'));
+
+		$html = '<html>
+		<head>
+			<style>
+				@page {
+					margin: 10px 0px 50px 0px;
+				}
+				*{box-sizing: border-box;}
+				header {
+					top: -30px;
+					left: 0px;
+					right: 0px;
+					height: 180px;
+					position:absolute;
+					border-radius:5px;
+					font-family: sans-serif;
+					background: url('.$border_image.');
+					background-position: top;
+					background-size: 100% 100%;
+					background-repeat: no-repeat;
+				}
+				table { border-collapse: collapse; }
+			</style>
+		</head>
+		<body style="font-family: sans-serif; margin-top:0;padding-top:30px;position:relative;">
+			<header><img src="'.get_template_directory().'/images/pdf/shape-02.png" style=" display:block; position:absolute;top:0px;right:0;width:100%; height:180px;"></header>
+			<div style="width:100%; display: inline-block; text-align:center; font-family: sans-serif;padding:0 0 30px;">
+				<table style="width:96%; margin:0 auto 0;">
+					<tr style="text-align:left;">
+						<td width="70%">';
+
+							if( !empty($logo_image)){
+								$html	.= '<h1 style="font-size: 26px;line-height: 26px;margin: 0 0 10px; font-weight: 500; color: #3d4461;" ><img style="height:100px;width:225px;border-radius:5px;" src="'.$logo_image.'" ></h1>';
+							}
+			
+							if( !empty($location_title) ){
+								$html	.= '<h4 style="font-size: 1.3em;line-height: 1.2;">'.$location_title.'</h4>';
+							}
+				
+							if( !empty($address) ){
+								$html	.= '<span style="margin-top: 6px; line-height: 20px; font-size: 14px; display: block;text-decoration: none;">'.$address.'</span>';
+							}
+				
+							if( !empty($location) ){
+								$html	.= '<span style="margin-top: 0px; line-height: 20px; font-size: 14px; display: block;text-decoration: none;">'.$location.'</span>';
+							}
+				
+							if( !empty($mobile_number) ){
+								$html	.= '<a style="margin-top: 6px; line-height: 20px; font-size: 14px; display: block;color:#3fabf3;text-decoration: none;" href="tel:+'.$mobile_number.'">+'.$mobile_number.'</a>';
+							}
+				
+							if( !empty($email_info) ){
+								$html	.= '<a style="margin-top: 6px; line-height: 20px; font-size: 14px; display: block;color:#3fabf3;text-decoration: none;" href="mailto:'.is_email($email_info).'">'.is_email($email_info).'</a>	';
+							}
+				
+							if( !empty($web_url) ){
+								$html	.= '<a style="margin-top: 6px; line-height: 20px; font-size: 14px; display: block;color:#3fabf3;text-decoration: none;" href="'.esc_url($web_url).'">'.esc_url($web_url).'</a>	';
+							}
+							
+						$html	.= '</td>
+					</tr>
+				</table>';
+				$html	.='<table style="width:96%; margin:20px auto 0;">
+								<tr style="text-align:left;">';
+									if( !empty($prescription_details['_patient_name'])){
+										$html	.= '<td width="100%" style="text-align:left;box-sizing: border-box;"><span style="display: inline-block; padding: 7px 15px 7px; line-height: 1.3em;width: 100%; font-size: 14px; border-bottom: 1px solid #ddd; margin: 0 1% 10px;">'.esc_html__('Name:','doctreat').' '.$prescription_details['_patient_name'].'</span></td>';
+									}
+
+									if( !empty($prescription_details['_age'])){
+
+										$html		.= '<td width="100%" style="text-align:left;box-sizing: border-box;"><span style="display: inline-block; padding: 7px 15px 7px; line-height: 1.3em;width: 100%; font-size: 14px; border-bottom: 1px solid #ddd; margin: 0 1% 10px;">'.esc_html__('Age:','doctreat').' '.$prescription_details['_age'].' '.esc_html__('year','doctreat').'</span></td>';
+
+									}
+		
+					$html		.='</tr>';
+				
+				if( !empty($prescription_details['_gender']) || !empty($prescription_details['_address'])){
+					$html		.='<tr style="text-align:left;">';
+						if( !empty($prescription_details['_gender'])){
+							$html		.= '<td width="100%" style="text-align:left;box-sizing: border-box;"><span style="display: inline-block; padding: 7px 15px 7px; line-height: 1.3em;width: 100%; font-size: 14px; border-bottom: 1px solid #ddd; margin: 0 1% 10px;">'.esc_html__('Gender:','doctreat').' '.ucfirst($prescription_details['_gender']).'</span></td>';
+						}
+
+						if( !empty($prescription_details['_address'])){
+							$html		.= '<td width="100%" style="text-align:left;box-sizing: border-box;"><span style="display: inline-block; padding: 7px 15px 7px; line-height: 1.3em;width: 100%; font-size: 14px; border-bottom: 1px solid #ddd; margin: 0 1% 10px;">'.esc_html__('Address:','doctreat').' '.$prescription_details['_address'].'</span></td>';
+
+						}
+
+					$html		.='</tr>';
+				}
+				
+				// if( !empty($prescription_details['_marital_status']) || !empty($prescription_details['_childhood_illness'])){
+				// 	$html		.='<tr style="text-align:left;">';
+				// 	if( !empty($prescription_details['_marital_status'])){
+				// 		$term 			= !empty($prescription_details['_marital_status']) ? get_term( $prescription_details['_marital_status'], 'marital_status' ) : '';
+				// 		$status_name	= !empty($term->name) ? $term->name : '';
+
+				// 		$html		.= '<td width="100%" style="text-align:left;box-sizing: border-box;"><span style="display: inline-block; padding: 7px 15px 7px; line-height: 1.3em;width: 100%; font-size: 14px; border-bottom: 1px solid #ddd; margin: 0 1% 10px;">'.esc_html__('Marital status:','doctreat').' '.ucfirst($status_name).'</span></td>';
+
+				// 	}
+
+				// 	// if( !empty($prescription_details['_childhood_illness'])){
+				// 	// 	$child_illness		= '';
+				// 	// 	$counter_illness	= 0;
+				// 	// 	$total_illness		= count($prescription_details['_childhood_illness']);
+				// 	// 	foreach($prescription_details['_childhood_illness'] as $illness){
+				// 	// 		$counter_illness++;
+				// 	// 		$term 			= !empty($illness) ? get_term_by('id', $illness, 'childhood_illness') : '';
+				// 	// 		$illness_name	= !empty($term->name) ? $term->name : '';
+				// 	// 		$child_illness	.= $total_illness > $counter_illness ? $illness_name.',' : $illness_name;
+				// 	// 	}
+
+				// 	// 	$html		.= '<td width="100%" style="text-align:left;box-sizing: border-box;"><span style="display: inline-block; padding: 7px 15px 7px; line-height: 1.3em;width: 100%; font-size: 14px; border-bottom: 1px solid #ddd; margin: 0 1% 10px;">'.esc_html__('Child illness:','doctreat').' '.esc_html($child_illness).'</span></td>';
+
+				// 	// }
+
+					$html		.='</tr>';
+				// }
+				
+				if( !empty($prescription_details['_diseases']) || !empty( $prescription_details['_vital_signs'] )){
+					$html		.='<tr style="text-align:left;">';
+
+					if( !empty($prescription_details['_diseases'])){
+						$diseases_name		= '';
+						$counter_diseases	= 0;
+						$total_diseases		= count($prescription_details['_diseases']);
+
+						foreach($prescription_details['_diseases'] as $diseases){
+							$counter_diseases++;
+							$term 			= !empty($diseases) ? get_term_by('id', $diseases, 'diseases') : '';
+							$dis_name		= !empty($term->name) ? $term->name : '';
+							$diseases_name	.= $total_diseases > $counter_diseases ? $dis_name.',' : $dis_name;
+						}
+
+
+						$html		.= '<td width="100%" style="text-align:left;box-sizing: border-box;"><span style="display: inline-block; padding: 7px 15px 7px; line-height: 1.3em;width: 100%; font-size: 14px; border-bottom: 1px solid #ddd; margin: 0 1% 10px;">'.esc_html__('Diseases:','doctreat').' '.esc_html($diseases_name).'</span></td>';
+
+					}
+
+
+					if( !empty( $prescription_details['_vital_signs'] ) ){
+
+						$counter_sign		= 0;
+						$vital_signs_name	= '';
+						$total_sign			= count($prescription_details['_vital_signs']);
+						foreach($prescription_details['_vital_signs'] as $key => $val ) { 
+							$counter_sign++;
+							if( !empty($val) ){
+								$term 				= !empty($key) ? get_term_by('id', $key, 'vital_signs') : '';
+								$sing_val			= !empty($val['value']) ? $val['value'] : '';
+								$vital_signs		= !empty($term->name) ? $term->name. '('.$sing_val.')' : '';
+								$vital_signs_name	.= $total_diseases > $counter_diseases ? $vital_signs.',' : $vital_signs;
+
+							}
+						}
+
+						$html		.= '<td width="100%" style="text-align:left;box-sizing: border-box;"><span style="display: inline-block; padding: 7px 15px 7px; line-height: 1.3em;width: 100%; font-size: 14px; border-bottom: 1px solid #ddd; margin: 0 1% 10px;">'.esc_html__('Vital signs:','doctreat').' '.esc_html($vital_signs_name).'</span></td>';
+
+					}
+
+					$html	.='</tr>';
+				}
+					
+				$html	.='</table>';
+
+				// if( !empty($prescription_details['_medical_history'] ) ){
+				// 	$html	.= '<em style="font-size: 20px; line-height: 1.3em; color: #3d4461; display: block; width: 95%; margin: 20px auto; text-align: left; font-style: normal;">'.esc_html__('Diagnosis:','doctreat').'</em>';
+				// 	$html	.= '<p style="text-align:left; font-size: 14px; line-height:1.5em; width: 95%; margin:0 auto;">'.esc_html($prescription_details['_medical_history']).'</p>';
+				// }
+		
+				if( !empty( $medicine ) ){
+					$html	.= '<em style="font-size: 20px; line-height: 1.3em; color: #3d4461; display: block; width: 95%; margin: 20px auto; text-align: left; font-style: normal;">'.esc_html__('Medications:','doctreat').'</em>';
+					$html	.= '<table style="width: 95%; margin: 0 auto;font-family: sans-serif;">';
+					$html .= '<thead>
+						<tr style="text-align: left; border-radius:5px 0 0;">
+							<th style="width:10%; padding: 15px 20px;background: #f5f5f5; font-size:14px;">'.esc_html__('Name','doctreat').'</th>
+							<th style="width:10%; padding: 15px 20px;background: #f5f5f5; font-size:14px;">'.esc_html__('Types','doctreat').'</th>
+							<th style="width:15%; padding: 15px 20px;background: #f5f5f5; font-size:14px;">'.esc_html__('Duration','doctreat').'</th>
+							<th style="width:15%; padding: 15px 20px;background: #f5f5f5; font-size:14px;">'.esc_html__('Usage','doctreat').'</th>
+							<th style="width:25%; padding: 15px 20px;background: #f5f5f5; font-size:14px;">'.esc_html__('Details','doctreat').'</th>
+						</tr>
+					</thead>
+					<tbody>';
+					foreach($medicine as $vals ) { 
+						$name					= !empty($vals['name']) ? esc_html($vals['name']) : '';
+						$medicine_duration 		= !empty($vals['medicine_duration']) ? get_term_by('id', $vals['medicine_duration'], 'medicine_duration',ARRAY_A) : '';
+						$medicine_duration		= !empty($medicine_duration['name']) ? $medicine_duration['name'] : '';
+						$medicine_types 		= !empty($vals['medicine_types']) ? doctreat_get_term_by_type('id', $vals['medicine_types'], 'medicine_types','name') : '';
+						$medicine_types			= !empty($medicine_types) ? $medicine_types : '';
+
+						$medicine_usage 			= !empty($vals['medicine_usage']) ? doctreat_get_term_by_type('id', $vals['medicine_usage'], 'medicine_usage','name') : '';
+						$medicine_usage				= !empty($medicine_usage) ? $medicine_usage : '';
+
+						$detail						= !empty($vals['detail']) ? esc_html($vals['detail']) : '';
+
+						$html	.= '<tr>';
+						if( !empty($vals) ){
+								$html	.= '<td style="padding: 15px 20px; border-top: 1px solid #e2e2e2; font-size:14px;">'.esc_html($name).'</td>';
+								$html	.= '<td style="padding: 15px 20px; border-top: 1px solid #e2e2e2; font-size:14px;">'.esc_html($medicine_types).'</td>';
+								$html	.= '<td style="padding: 15px 20px; border-top: 1px solid #e2e2e2; font-size:14px;">'.esc_html($medicine_duration).'</td>';
+								$html	.= '<td style="padding: 15px 20px; border-top: 1px solid #e2e2e2; font-size:14px;">'.esc_html($medicine_usage).'</td>';
+								$html	.= '<td style="padding: 15px 20px; border-top: 1px solid #e2e2e2; font-size:14px;">'.esc_html($detail).'</td>';
+							}			
+						$html	.= '</tr>';
+					}
+					$html	.= '</table>';
+				}
+		
+			
+		
+			$html	.='</div>
+
+			
+			<footer style="text-align: center;margin-top:0;padding: 0 0 0;position:fixed; bottom:0;padding:0; min-height:100px;">
+				<img src="'.get_template_directory().'/images/pdf/shape-01.png" style=" display:block; position:absolute;bottom:-60px;left:0;width:100%; height:150px;">
+			</footer>';
+			$html .= '</body></html>';
+		return $html;
+	}
+	add_filter('medecine_pdf', 'medecine_pdf',10,1);
 }
 
 /**
