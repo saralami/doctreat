@@ -1910,11 +1910,11 @@ function doctreat_print() {
 }
 
    // send medication
-   jQuery(document).on('click', '.dc-send_medication', function() {
+   jQuery(document).on('click', '.dc-send-prescription', function() {
     var _this 		= jQuery(this);
     var _serialized     = jQuery('.dc-medication-form').serialize();
     var booking_id      = _this.data('booking_id');
-    var dataString 	    = 'booking_id=' + booking_id +'&'+ _serialized+'&action=doctreat_update_medication'; 
+    var dataString 	    = 'booking_id=' + booking_id +'&'+ _serialized+'&action=doctreat_update_prescription'; 
     jQuery('body').append(loader_html);  
     jQuery.ajax({
         type: "POST",
