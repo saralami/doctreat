@@ -4038,16 +4038,16 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 						<?php
 						//$location 			= apply_filters('doctreat_get_tax_query',array(),'locations','');
 						//$pharmacie =  get_post_meta($pharmacie_id, tue);
-                         $prescription	= get_post_meta( $prescription_id, '_detail', true );
-						 $medicine			= array();
-						 $medicine			= !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
-						 if( !empty($medicine) ){
-							foreach( $medicine as $key => $values ){
-								$name_val				= !empty($values['name']) ? $values['name'] : '';
-								$medicine_types_val		= !empty($values['medicine_types']) ? $values['medicine_types'] : '';
-								$medicine_duration_val	= !empty($values['medicine_duration']) ? $values['medicine_duration'] : '';
-								$medicine_usage_val		= !empty($values['medicine_usage']) ? $values['medicine_usage'] : '';
-								$detail_val				= !empty($values['detail']) ? $values['detail'] : '';
+                        //  $prescription	= get_post_meta( $prescription_id, '_detail', true );
+						//  $medicine			= array();
+						//  $medicine			= !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
+						//  if( !empty($medicine) ){
+						// 	foreach( $medicine as $key => $values ){
+						// 		$name_val				= !empty($values['name']) ? $values['name'] : '';
+						// 		$medicine_types_val		= !empty($values['medicine_types']) ? $values['medicine_types'] : '';
+						// 		$medicine_duration_val	= !empty($values['medicine_duration']) ? $values['medicine_duration'] : '';
+						// 		$medicine_usage_val		= !empty($values['medicine_usage']) ? $values['medicine_usage'] : '';
+						// 		$detail_val				= !empty($values['detail']) ? $values['detail'] : '';
 
 									//global $current_user,$theme_settings;
 								//$user_identity 	 	= $current_user->ID;
@@ -4068,7 +4068,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 					
 							
 									<?php
-								}}
+								//}}
 
 								$args = array(
 									'posts_per_page' 	=> -1,
@@ -4079,12 +4079,12 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 						$query 	= new WP_Query( $args );
 						$posts = $query->posts;
 						//$all_doctors_ids = array();
-						var_dump($posts);
+					//	var_dump($posts);
 								      //echo do_shortcode('[contact-form-7 id="1548" title="ordonnance"]');
 								 // [contact-form-7 id="1548" title="ordonnance"]
 							?>
 						          <div class="dc-select">
-										<select name="order" class="order">
+										<select name="pharmacie_id" class="">
 										<option value="ASC"><?php esc_html_e('Choisir une pharmacie','doctreat');?></option>
 										<?php 
 										    foreach( $posts as $post ) {
@@ -4095,7 +4095,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 										?>
 											
 											
-											<option value="DESC" <?php echo $post->id;?>><?php echo $pharmacie;?></option>
+											<option value="DESC" <?php echo $post->ID;?>><?php echo $pharmacie;?></option>
 											<?php
 										}
 										?>
@@ -5263,8 +5263,8 @@ if (!function_exists('doctreat_update_medication')) {
 		}
 		
 		 $pharmacie_id				= !empty($_POST['pharmacie_id']) ? sanitize_text_field($_POST['pharmacie_id']) : '';
-		// $booking_id				= !empty($_POST['booking_id']) ? sanitize_text_field($_POST['booking_id']) : '';
-		// $patient_name			= !empty($_POST['patient_name']) ? sanitize_text_field($_POST['patient_name']) : '';
+		 $booking_id				= !empty($_POST['booking_id']) ? sanitize_text_field($_POST['booking_id']) : '';
+		 $patient_name			= !empty($_POST['patient_name']) ? sanitize_text_field($_POST['patient_name']) : '';
 		// $phone					= !empty($_POST['phone']) ? sanitize_text_field($_POST['phone']) : '';
 		// $age					= !empty($_POST['age']) ? sanitize_text_field($_POST['age']) : '';
 		// $address				= !empty($_POST['address']) ? sanitize_text_field($_POST['address']) : '';
@@ -5284,7 +5284,7 @@ if (!function_exists('doctreat_update_medication')) {
 		// $doctor_id				= doctreat_get_linked_profile_id($doctor_id,'post');
 		// $hospital_id			= get_post_meta( $booking_id, '_hospital_id', true );
 		
-		// $prescription_id		= get_post_meta( $booking_id, '_prescription_id', true );
+		 $prescription_id		= get_post_meta( $booking_id, '_prescription_id', true );
 		// $am_booking				= get_post_meta( $booking_id, '_am_booking', true );
 		// $patient_id				= get_post_field( 'post_author', $booking_id );
 
@@ -5297,7 +5297,7 @@ if (!function_exists('doctreat_update_medication')) {
 		}
 
 		$post_array					= array();
-		//$post_array['post_title']	=	$patient_name;
+		$post_array['post_title']	=	$patient_name;
 		if( !empty($prescription_id) ){
 			$post_array['post_type']	= 'prescription';
 			$post_array['post_status']	= 'publish';
