@@ -4040,7 +4040,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 						<div class="dc-formtheme dc-vistingdocinfo">
 						<form class="dc-medication-form" method="post">
 						 <div class="form-group form-group-half">
-								<input type="text" name="patient_name" class="form-control" value="<?php echo esc_attr($username);?>" placeholder="<?php esc_attr_e('Patient Name','doctreat');?>">
+								<input type="text" name="patient_name" class="form-control" value="<?php echo esc_attr($name);?>" placeholder="<?php esc_attr_e('Patient Name','doctreat');?>">
 							</div>
 							
 									<?php
@@ -4066,7 +4066,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 			$query 	= new WP_Query( $arg );
 			$postss = $query->posts;
 			//$all_doctors_ids = array();
-			var_dump($postss);
+			//var_dump($postss);
 								      //echo do_shortcode('[contact-form-7 id="1548" title="ordonnance"]');
 								 // [contact-form-7 id="1548" title="ordonnance"]
 							?>
