@@ -1,7 +1,7 @@
-<?php 
+<?php
 /**
  *
- * The template part for add/update prescription 
+ * The template part for add/update prescription
  * @package   Doctreat
  * @author    Amentotech
  * @link      http://amentotech.com/
@@ -22,7 +22,7 @@ $childhood_illness	= array();
 $diseases_list		= array();
 $vital_signs		= array();
 if( !empty($booking_id) ){
-	
+
 	$doctor_profile_id	= doctreat_get_linked_profile_id($current_user->ID);
 	$specialities 		= wp_get_post_terms( $doctor_profile_id, 'specialities', array( 'fields' => 'ids' ) );
 	if(!empty($specialities) ){
@@ -69,13 +69,13 @@ if( !empty($booking_id) && empty($prescription_id) ){
 	}
 	$location 			= apply_filters('doctreat_get_tax_query',array(),$patient_profile_id,'locations','');
 	//Get country
-	
+
 
 } else if( !empty($prescription_id) ){
 	$prescription	= get_post_meta( $prescription_id, '_detail', true );
-	
+
 	$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
-	
+
 	$patient_id			= !empty($patient_id) ? $patient_id : '';
 	$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
 
@@ -83,8 +83,9 @@ if( !empty($booking_id) && empty($prescription_id) ){
 	$bk_username	= !empty($prescription['_patient_name']) ? $prescription['_patient_name'] : '';
 	$bk_phone		= !empty($prescription['_phone']) ? $prescription['_phone'] : '';
 	$age			= !empty($prescription['_age']) ? $prescription['_age'] : '';
+	$pharmacy1		= !empty($prescription['_pharmacy1']) ? $prescription['_pharmacy1'] : '';
 	$gender			= !empty($prescription['_gender']) ? $prescription['_gender'] : '';
-	
+
 	$medical_history	= !empty($prescription['_medical_history']) ? $prescription['_medical_history'] : '';
 	$medicine			= !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
 	$vital_signs		= !empty($prescription['_vital_signs']) ? $prescription['_vital_signs'] : '';
@@ -96,11 +97,11 @@ if( !empty($booking_id) && empty($prescription_id) ){
 		$male_checked	= 'checked';
 	} else if(!empty($gender) && $gender === 'female'){
 		$female_checked	= 'checked';
-	} 
-	
+	}
+
 	$location 			= apply_filters('doctreat_get_tax_query',array(),$prescription_id,'locations','');
 	$diseases_list 		= wp_get_post_terms( $prescription_id, 'diseases', array( 'fields' => 'ids' ) );
-	
+
 }
 
 $prescription_id	= !empty($prescription_id) ? $prescription_id : '';
@@ -117,7 +118,7 @@ $laboratory_tests 		= doctreat_get_taxonomy_array('laboratory_tests');
 $rand_val				= rand(1, 9999);
 
 ?>
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">		
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
 	<div class="dc-haslayout dc-prescription-wrap dc-dashboardbox dc-dashboardtabsholder">
 		<div class="dc-dashboardboxtitle">
 			<h2><?php esc_html_e('Generate Patient Prescription','doctreat');?></h2>
@@ -228,7 +229,7 @@ $rand_val				= rand(1, 9999);
 							</div>
 						</fieldset>
 					</div>
-						<?php 
+						<?php
 						if(!empty($vital_signs) ){
 							foreach($vital_signs as $vital_key	=> $vital_values ){
 								$vital_val	= !empty($vital_values['value']) ? $vital_values['value'] : '';
@@ -317,7 +318,43 @@ $rand_val				= rand(1, 9999);
 						?>
 					</div>
 				</div>
-				<div class="dc-updatall">
+
+				<!-- Pharmacy Field -->
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
+					<div class="dc-title">
+						<h4><?php esc_html_e('Pharmacy','doctreat');?>:</h4>
+					</div>
+					<div class="form-group form-group-half">
+						<span class="dc-select">
+							<?php
+								wp_dropdown_users(array('name' => 'pharmacy1', 'role' => 'pharmacies' ,'show_option_none' => esc_html__('Select a Pharmacy', 'doctreat'), 'selected' => $pharmacy1));
+							?>
+							<?php // do_action('doctreat_get_pharmacies_list','pharmacy1',$pharmacy1);?>
+						</span>
+						<?php
+							// $pharmacy_list = array();
+							// $args_ph = array(
+							// 		'role'    => 'pharmacies',
+							// 		'orderby' => 'user_nicename',
+							// 		'order'   => 'ASC'
+							// );
+							// $users_ph = get_users( $args_ph );
+
+
+							// foreach ( $users_ph as $user_ph ) {
+							// 	$pharmacy_list[]= $user_ph->display_name;
+							// }
+
+
+						?>
+
+					</div>
+				</div>
+				<!-- End Pharmacy Field -->
+
+
+
+											<div class="dc-updatall">
 					<?php wp_nonce_field('dc_prescription_submit_data_nonce', 'prescription_submit'); ?>
 					<i class="ti-announcement"></i>
 					<span onclick="doctreat_print();"><?php esc_html_e('Update all the latest changes made by you, by just clicking on “Save &amp; Update button.', 'doctreat'); ?></span>
@@ -378,7 +415,7 @@ $js_script	= "
 				}
 			}
 		});
-		
+
 	} );
 
 	";
