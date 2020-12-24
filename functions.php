@@ -66,3 +66,4 @@ if( class_exists( 'DoctreatGlobalSettings' ) ) {
 // 	'edit_posts'   => true,
 // 	)
 // 	);
+

@@ -4034,6 +4034,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 				<div class="modal-dialog" role="document">
 					<div class="dc-modalcontent modal-content">
 						<div class="dc-popuptitle">
+							<h3><?php esc_html_e('Envoyez votre ordonnance','doctreat');?></h3>
 							<a href="javascript:;" class="dc-closebtn close dc-close" data-dismiss="modal" aria-label="<?php esc_attr_e('Close','doctreat');?>"><i class="ti-close"></i></a>
 						</div>
 						<div class="dc-formtheme dc-vistingdocinfo">
@@ -4113,33 +4114,20 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 								$rand_val				= rand(1, 9999);
 
 							?>
-						
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
 								<div class="dc-haslayout dc-prescription-wrap dc-dashboardbox dc-dashboardtabsholder">
-									
+									<div class="dc-dashboardboxtitle">
+										<h2><?php esc_html_e('Generate Patient Prescription','doctreat');?></h2>
+									</div>
 									<div class="dc-dashboardboxcontent">
-									  <?php 
-									     if(!empty($medicine)) {
-
-										
-									  ?>
-									       <fieldset>
-										       <div class="form-group">
-													<form method="post" name="downloa_pdf">
-													<input type="hidden" name="pdf_doctor_id" value="<?php echo intval($booking_id);?>">
-													<span>Telechargez votre ordonnance ou envoyez la a une de nos pharmacies</span>
-													<a href="javascript:;" onclick="document.forms['downloa_pdf'].submit(); return false;" class="dc-btn dc-pdfbtn"><i class="ti-download"></i></a>
-													</form>
-												</div>
-											</fieldset>
-										 <?php } ?>	
 										<form class="dc-prescription-form" method="post">
-											<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
+											<div class="dc-dashboardbox dc-prescriptionbox">
 												<div class="dc-title">
 													<h4><?php esc_html_e('Patient Information','doctreat');?>:</h4>
 												</div>
 												<div class="dc-formtheme dc-userform">
 													<fieldset>
-														<div class="form-group form-group-half dc-hide-form">
+														<div class="form-group form-group-half">
 															<input type="text" name="patient_name" class="form-control" value="<?php echo esc_attr($username);?>" placeholder="<?php esc_attr_e('Patient Name','doctreat');?>">
 														</div>
 														<div class="form-group form-group-half dc-hide-form">
@@ -4158,7 +4146,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 																<?php do_action('doctreat_get_locations_list','location',$location);?>
 															</span>
 														</div>
-														<div class="form-group form-group-half dc-hide-form">
+														<div class="form-group form-group-half">
 															<div class="dc-radio-holder">
 																<span class="dc-radio">
 																	<input id="dc-mo-male" type="radio" name="gender" value="male" <?php echo esc_attr($male_checked);?>>
@@ -4173,11 +4161,11 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 													</fieldset>
 												</div>
 											</div>
-											<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
+											<div class="dc-dashboardbox dc-prescriptionbox">
 												<div class="dc-title">
 													<h4><?php esc_html_e('Marital Status','doctreat');?>:</h4>
 												</div>
-												<div class="dc-formtheme dc-userform dc-hide-form">
+												<div class="dc-formtheme dc-userform">
 												<?php do_action( 'doctreat_get_texnomy_radio','marital_status','marital_status',$marital_status);?>
 												</div>
 											</div>
@@ -4271,7 +4259,6 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 													</fieldset>
 												</div>
 											</div>
-											
 											<div class="dc-dashboardbox dc-prescriptionbox dc-medications dc-hide-form">
 												<div class="dc-title">
 													<h4><?php esc_html_e('Medications','doctreat');?>:</h4> <a href="javascript:;" class="dc-add-medician"><?php esc_html_e('Add New','doctreat');?></a>
@@ -4295,15 +4282,6 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 														</div>
 													</fieldset>
 													<?php
-													// $args = array(
-													// 	'posts_per_page' 	=> -1,
-													// 	'post_type' 		=> 'pharmacies',
-													// 	'post_status'    =>  'publish',
-													// 	//'post_author'			=> '_pharmacie_id'
-													// );
-											$query 	= new WP_Query( $args );
-											$posts = $query->posts;
-
 														if( !empty($medicine) ){
 															foreach( $medicine as $key => $values ){
 																$name_val				= !empty($values['name']) ? $values['name'] : '';
@@ -4312,7 +4290,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 																$medicine_usage_val		= !empty($values['medicine_usage']) ? $values['medicine_usage'] : '';
 																$detail_val				= !empty($values['detail']) ? $values['detail'] : '';
 															?>
-															<div class="dc-visal-sign dc-medician-<?php echo esc_attr($key);?>">
+																<div class="dc-visal-sign dc-medician-<?php echo esc_attr($key);?>">
 																	<fieldset>
 																		<div class="form-group form-group-half">
 																			<input type="text" name="medicine[<?php echo esc_attr($key);?>][name]" class="form-control" value="<?php echo esc_attr($name_val);?>" placeholder="<?php esc_attr_e('Name','doctreat');?>">
@@ -4337,84 +4315,55 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 																</div>
 															<?php
 															}
-															
 														}
 													?>
 												</div>
 											</div>
-                                             <?php  if( !empty($medicine) ){ 
-												 var_dump($pharmacy1);
-												//  $hospital_p		= doctreat_full_name($location);
-												//  $location_id		= get_post_meta($post->ID, '_pharmacie_location', true );
-												//  $location_id		= !empty($location_id) ? $location_id : 0;
-												//  $location_title		= !empty($location) ? get_the_title($location) : '';
-												//  // $doctor_location	= get_post_meta( $booking_id, '_patient_location', true );
-												//   var_dump($pharmacy1);
-												
-												 ?>
-											 
-												<!-- <div class="form-group form-group-half">
-															<span class="dc-select">
-																<?php //do_action('doctreat_get_locations_list','location',$location);?>
-															</span>
-														</div> -->
+
 											<!-- Pharmacy Field -->
-                                             
-											<!-- <div class="dc-select">
-										<select name="pharmacy1" class="">
-										  <option value="$pharmacy1"><?php //esc_html_e('Choisir une pharmacie','doctreat');?></option> -->
-										<?php 
-									
-										    // foreach( $posts as $post ) {
-											// 	//$post->post_name;
-											// 	$pharmacie = $post->post_title;
-												//$all_doctors_ids[] = get_post_meta( $post->ID,'_pharmacie_id',true);
-												//var_dump($locationsp);
-
-												
-										?>
-											
-											
-											<!-- <option value="<?php //echo $pharmacie;?>" <?php //echo $post->ID;?>><?php //echo $pharmacie;?></option> -->
-											<?php
-										//}
-										?>
-										</select>
-
-									</div>
 											<div class="dc-dashboardbox dc-prescriptionbox">
-										
 												<div class="dc-title">
-													<h4><?php esc_html_e('Nos pharmacies','doctreat');?>:</h4>
+													<h4><?php esc_html_e('Pharmacy','doctreat');?>:</h4>
 												</div>
-
 												<div class="form-group">
 													<span class="dc-select">
 														<?php
-															wp_dropdown_users(array('name' => 'pharmacy1', 'role' => 'pharmacies', 'orderby' => '', 'show_option_none' => esc_html__('Choisir une pharmacie', 'doctreat'), 'selected' => $pharmacy1));
+															wp_dropdown_users(array('name' => 'pharmacy1', 'role' => 'pharmacies' ,'show_option_none' => esc_html__('Select a Pharmacy', 'doctreat'), 'selected' => $pharmacy1));
+															echo '<pre>'; print_r($prescription); echo '</pre>';
 														?>
+
 														<?php // do_action('doctreat_get_pharmacies_list','pharmacy1',$pharmacy1);?>
-														
 													</span>
-								                </div>
-										         
-                                                 
-												 
+													<?php
+														// $pharmacy_list = array();
+														// $args_ph = array(
+														// 		'role'    => 'pharmacies',
+														// 		'orderby' => 'user_nicename',
+														// 		'order'   => 'ASC'
+														// );
+														// $users_ph = get_users( $args_ph );
+                                                       
+
+														// foreach ( $users_ph as $user_ph ) {
+														// 	$pharmacy_list[]= $user_ph->display_name;
+														// }
+
+
+													?>
+
+												</div>
+											</div>
 											<!-- End Pharmacy Field -->
 
 											<div class="dc-updatall">
 												<?php wp_nonce_field('dc_prescription_submit_data_nonce', 'prescription_submit'); ?>
 												<i class="ti-announcement"></i>
-												<span onclick="doctreat_print();"><?php esc_html_e('Envoyez votre ordonnance a une de nos pharmacies' , 'doctreat'); ?></span>
-												<a class="dc-btn dc-update-prescription" data-booking_id="<?php echo intval( $booking_id ); ?>" href="javascript:;"><?php esc_html_e('Envoyer', 'doctreat'); ?></a>
+												<span onclick="doctreat_print();"><?php esc_html_e('Update all the latest changes made by you, by just clicking on “Save &amp; Update button.', 'doctreat'); ?></span>
+												<a class="dc-btn dc-update-prescription" data-booking_id="<?php echo intval( $booking_id ); ?>" href="javascript:;"><?php esc_html_e('Save &amp; Update', 'doctreat'); ?></a>
 											</div>
-											
-											 <?php } else{ echo '<h2>Votre d\'octeur ne vous a pas encore prescrit d\'ordonnance</h2>';}
-											  ?>
 										</form>
 						</div>
 					</div>
-					
 				</div>
 
 

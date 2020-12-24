@@ -1934,3 +1934,4 @@ function doctreat_print() {
 });
 
 // end  js for medication
+
