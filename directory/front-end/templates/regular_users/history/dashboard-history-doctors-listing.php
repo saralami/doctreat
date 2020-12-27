@@ -139,7 +139,7 @@ $posts_doc = $query_doc->posts;
 					$thumbnail   	= doctreat_prepare_thumbnail($doctor_id, $width, $height);
 					$doctor_url		= get_the_permalink( $doctor_id );
 					$doctor_url		= !empty( $doctor_url ) ? $doctor_url : '';
-					echo $doctor_id;
+					//echo $doctor_id;
 					//$services		= get_post_meta($booking_id,'_booking_service', true);
 					$specialities   =  doctreat_get_post_meta($doctor_id, 'am_specialities');	
 					foreach ( $specialities as $key => $specialities) { 

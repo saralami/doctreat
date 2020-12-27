@@ -558,6 +558,11 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 				'title' => esc_html__('Ordonnance','doctreat'),
 				'type'	=> 'pharmacies'
 			),
+
+			'manager ordonnance'	=> array(
+				'title' => esc_html__('Ordonnance','doctreat'),
+				'type'	=> 'manager_ordonnance'
+			),
 			'logout'	=> array(
 				'title' => esc_html__('Logout','doctreat'),
 				'type'	=> 'none'
@@ -720,7 +725,7 @@ if( !function_exists(  'doctreat_get_username' ) ) {
             $user_role = $userdata->roles[0];
         }
        
-        if (!empty($user_role) && $user_role === 'doctors' || $user_role === 'hospitals' || $user_role === 'regular_users' || $user_role === 'pharmacies' ) {
+        if (!empty($user_role) && $user_role === 'doctors' || $user_role === 'hospitals' || $user_role === 'regular_users' || $user_role === 'pharmacies' || $user_role === 'manager_ordonnance' ) {
 			$linked_profile   	= doctreat_get_linked_profile_id($user_id);
 			if( !empty( $linked_profile ) ){
 				return doctreat_full_name($linked_profile);
@@ -1734,7 +1739,8 @@ if ( ! function_exists( 'doctreat_list_user_types' ) ) {
 						'hospitals'		=> esc_html__("Hospital",'doctreat'),
 						'doctors'		=> esc_html__("Doctor",'doctreat'),
 						'regular_users' => esc_html__("Patient",'doctreat'),
-						'pharmacies' => esc_html__("Pharmacie",'doctreat') 
+						'pharmacies' => esc_html__("Pharmacie",'doctreat'), 
+						'manager_ordonnance' => esc_html__("Manager ordonnance",'doctreat') 
 					);
 		
 		if( !empty($system_access) ){

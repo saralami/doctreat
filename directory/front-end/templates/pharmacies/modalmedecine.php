@@ -1,4 +1,17 @@
-<?php
+
+    <!-- Modal -->
+	<div class="modal fade" id="<?php echo $prescription_id;?>" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+       
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	     
+      <?php
 /**
  *
  * The template part for add/update prescription
@@ -7,8 +20,13 @@
  * @link      http://amentotech.com/
  * @since 1.0
  */
-global $current_user;
-$booking_id			= !empty($_GET['booking_id']) ? intval($_GET['booking_id']) : "";
+//global $current_user;
+//var_dump($current_user);
+$booking_id	= get_post_meta( $prescription_id, '_booking_id', true );
+
+
+//$booking_id			= !empty($_GET['booking_id']) ? intval($_GET['booking_id']) : "";
+
 $timezone_string	= !empty(get_option('timezone_string')) ? get_option('timezone_string') : 'UTC';
 $male_checked		= '';
 $female_checked		= '';
@@ -84,6 +102,7 @@ if( !empty($booking_id) && empty($prescription_id) ){
 	$bk_phone		= !empty($prescription['_phone']) ? $prescription['_phone'] : '';
 	$age			= !empty($prescription['_age']) ? $prescription['_age'] : '';
 	$pharmacy1		= !empty($prescription['_pharmacy1']) ? $prescription['_pharmacy1'] : '';
+
 	//PRESCRIPTION STATUS 
 	$prescription_status = !empty($prescription['_prescription_status']) ? $prescription['_prescription_status'] : '';
     //MEDICINE STATUS 
@@ -125,14 +144,15 @@ $laboratory_tests 		= doctreat_get_taxonomy_array('laboratory_tests');
 $rand_val				= rand(1, 9999);
 
 ?>
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+<!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"> -->
 	<div class="dc-haslayout dc-prescription-wrap dc-dashboardbox dc-dashboardtabsholder">
 		<div class="dc-dashboardboxtitle">
-			<h2><?php esc_html_e('Generate Patient Prescription','doctreat');?></h2>
+			<h2><?php esc_html_e('Ordonnance','doctreat');?></h2>
 		</div>
 		<div class="dc-dashboardboxcontent">
 			<form class="dc-prescription-form" method="post">
-				<div class="dc-dashboardbox dc-prescriptionbox">
+			
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Patient Information','doctreat');?>:</h4>
 					</div>
@@ -150,11 +170,7 @@ $rand_val				= rand(1, 9999);
 							<div class="form-group form-group-half">
 								<input type="text" name="address" value="<?php echo esc_attr($patient_address);?>" class="form-control" placeholder="<?php esc_attr_e('Address','doctreat');?>">
 							</div>
-							<div class="form-group form-group-half">
-								<span class="dc-select">
-									<?php do_action('doctreat_get_locations_list','location',$location);?>
-								</span>
-							</div>
+							
 							<div class="form-group form-group-half">
 								<div class="dc-radio-holder">
 									<span class="dc-radio">
@@ -170,7 +186,7 @@ $rand_val				= rand(1, 9999);
 						</fieldset>
 					</div>
 				</div>
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Marital Status','doctreat');?>:</h4>
 					</div>
@@ -179,7 +195,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Childhood illness','doctreat');?>:</h4>
 					</div>
@@ -188,7 +204,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Diseases','doctreat');?>:</h4>
 					</div>
@@ -197,7 +213,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Select Laboratory Tests', 'doctreat'); ?></h4>
 					</div>
@@ -205,7 +221,7 @@ $rand_val				= rand(1, 9999);
 						<div class="dc-formtheme dc-userform">
 							<fieldset>
 								<div class="form-group">
-									<select data-placeholder="<?php esc_attr_e('Laboratory Tests', 'doctreat'); ?>" class="form-control tests-<?php echo esc_attr($rand_val );?>" name="laboratory_tests[]" multiple="multiple">
+									<select style="width:auto" data-placeholder="<?php esc_attr_e('Laboratory Tests', 'doctreat'); ?>" class="form-control tests-<?php echo esc_attr($rand_val );?>" name="laboratory_tests[]" multiple="multiple">
 										<?php if( !empty( $laboratory_tests ) ){
 											foreach( $laboratory_tests as $key => $item ){
 												$selected = '';
@@ -222,7 +238,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Common Issue','doctreat');?>:</h4><a href="javascript:;" class="dc-add-vitals"><?php esc_html_e('Add New','doctreat');?></a>
 					</div>
@@ -256,7 +272,7 @@ $rand_val				= rand(1, 9999);
 						}
 					?>
 				</div>
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Medical History','doctreat');?>:</h4>
 					</div>
@@ -269,62 +285,53 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 				<div class="dc-dashboardbox dc-prescriptionbox dc-medications">
-					<div class="dc-title">
-						<h4><?php esc_html_e('Medications','doctreat');?>:</h4> <a href="javascript:;" class="dc-add-medician"><?php esc_html_e('Add New','doctreat');?></a>
-					</div>
+			
 					<div class="dc-formtheme dc-userform" id="dc-medican-html">
-						<fieldset>
-							<div class="form-group form-group-half">
-								<input type="text" id="medicine_name" class="form-control" placeholder="<?php esc_attr_e('Name','doctreat');?>">
-							</div>
-							<div class="form-group form-group-half">
-								<?php do_action( 'doctreat_get_texnomy_select','medicine_types','',esc_html__('Select type','doctreat') ,'','medicine_types');?>
-							</div>
-							<div class="form-group form-group-half">
-								<?php do_action( 'doctreat_get_texnomy_select','medicine_duration','',esc_html__('Select medicine duration','doctreat') ,'','medicine_duration');?>
-							</div>
-							<div class="form-group form-group-half">
-								<?php do_action( 'doctreat_get_texnomy_select','medicine_usage','',esc_html__('Select medician Usage','doctreat') ,'','medicine_usage');?>
-							</div>
-							<div class="form-group">
-								<input type="text" id="medicine_details" class="form-control" placeholder="<?php esc_attr_e('Add Comment','doctreat');?>">
-							</div>
-						</fieldset>
+				
 						<?php
 							if( !empty($medicine) ){
 								foreach( $medicine as $key => $values ){
+                                 
+
 									$name_val				= !empty($values['name']) ? $values['name'] : '';
 									$medicine_types_val		= !empty($values['medicine_types']) ? $values['medicine_types'] : '';
 									$medicine_duration_val	= !empty($values['medicine_duration']) ? $values['medicine_duration'] : '';
 									$medicine_usage_val		= !empty($values['medicine_usage']) ? $values['medicine_usage'] : '';
-									$detail_val				= !empty($values['detail']) ? $values['detail'] : '';
-
-									$price_val = !empty($values['price']) ? $values['price'] : '';
-
+                                    $detail_val				= !empty($values['detail']) ? $values['detail'] : '';
+                                    
+                                    $medicine_types 		= !empty($values['medicine_types']) ? doctreat_get_term_by_type('id', $values['medicine_types'], 'medicine_types','name') : '';
+									$medicine_types			= !empty($medicine_types) ? $medicine_types : '';
+									
+									 $price_val = !empty($values['price']) ? $values['price'] : '';
+									
+								
 								?>
 									<div class="dc-visal-sign dc-medician-<?php echo esc_attr($key);?>">
 										<fieldset>
 											<div class="form-group form-group-half">
-												<input type="text" name="medicine[<?php echo esc_attr($key);?>][name]" class="form-control" value="<?php echo esc_attr($name_val);?>" placeholder="<?php esc_attr_e('Name','doctreat');?>">
+											<label for="">Médicament</label>
+												<input type="text" name="medicine[<?php echo esc_attr($key);?>][name]" class="form-control" value="<?php echo esc_attr($name_val);?>" placeholder="<?php esc_attr_e('Name','doctreat');?>" readonly>
 											</div>
-											<div class="form-group form-group-half">
+                                            <div class="form-group form-group-half">
+											<label for="">Type de médicament</label>
+                                                <input class="form-control" type="text" value="<?php echo $medicine_types; ?>" placeholder="<?php echo esc_html($medicine_types); ?>" readonly>
+                                            </div>
+                                           <div class="form-group form-group-half dc-hide-form">
 												<?php do_action( 'doctreat_get_texnomy_select','medicine_types','medicine['.esc_attr($key).'][medicine_types]',esc_html__('Select type','doctreat') ,$medicine_types_val,'medicine_types-.'.esc_attr($key).'');?>
 											</div>
-											<div class="form-group form-group-half">
+											<div class="form-group form-group-half dc-hide-form">
 												<?php do_action( 'doctreat_get_texnomy_select','medicine_duration','medicine['.esc_attr($key).'][medicine_duration]',esc_html__('Select medicine duration','doctreat') ,$medicine_duration_val,'medicine_duration-'.esc_attr($key).'');?>
 											</div>
-											<div class="form-group form-group-half">
+											<div class="form-group form-group-half dc-hide-form">
+											
 												<?php do_action( 'doctreat_get_texnomy_select','medicine_usage','medicine['.esc_attr($key).'][medicine_usage]',esc_html__('Select medician Usage','doctreat') ,$medicine_usage_val,'medicine_usage-'.esc_attr($key).'');?>
 											</div>
-											
-											 <!-- INPUT PRICE -->
-											 <div class="form-group dc-hide-form">
-												<input type="text" name="medicine[<?php echo esc_attr($key);?>][price]" class="form-control" value="<?php echo esc_attr($price_val);?>" placeholder="<?php esc_attr_e('Price','doctreat');?>">
+                                            <!-- INPUT PRICE -->
+											<div class="form-group">
+											<label for="">Prix</label>
+												<input type="text" name="medicine[<?php echo esc_attr($key);?>][price]" class="form-control" value="<?php echo esc_attr($price_val);?>" placeholder="<?php esc_attr_e('Mettre le prix du médicament','doctreat');?>">
 											</div>
-											<div class="form-group dc-delete-group">
-												<input type="text" name="medicine[<?php echo esc_attr($key);?>][detail]" value="<?php echo esc_attr($detail_val);?>" class="form-control" placeholder="<?php esc_attr_e('Add Comment','doctreat');?>">
-												<a href="javascript:;" class="dc-deletebtn dc-remove-visual"><i class="lnr lnr-trash"></i></a>
-											</div>
+                                           
 										</fieldset>
 									</div>
 								<?php
@@ -346,22 +353,40 @@ $rand_val				= rand(1, 9999);
 							?>
 							<?php // do_action('doctreat_get_pharmacies_list','pharmacy1',$pharmacy1);?>
 						</span>
+						<?php
+							// $pharmacy_list = array();
+							// $args_ph = array(
+							// 		'role'    => 'pharmacies',
+							// 		'orderby' => 'user_nicename',
+							// 		'order'   => 'ASC'
+							// );
+							// $users_ph = get_users( $args_ph );
+
+
+							// foreach ( $users_ph as $user_ph ) {
+							// 	$pharmacy_list[]= $user_ph->display_name;
+							// }
+
+
+						?>
+
 					</div>
 				</div>
 				<!-- End Pharmacy Field -->
-
-						<!-- Etat de prescription Field -->
-					<div class="dc-dashboardbox dc-prescriptionbox">
+                
+			     	<!-- Etat de prescription Field -->
+					 <div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Etat de la prinscription','doctreat');?>:</h4>
 					</div>
 					<div class="form-group">
-					 <select class="form-control form-control-lg" name="prescription_status">
+					
+                    <select class="form-control form-control-lg" name="prescription_status">
 					    <option value="">Oû en êtes vous avec la prinscription?</option>
 					    <option value="En cours" <?php if($prescription_status == "En cours") echo("selected")?>>En cours</option>
 						<option  value="Terminer"<?php if($prescription_status == "Terminer") echo("selected")?>>Terminer</option>
 					</select>
-				
+					
 					</div>
 				</div>
 				<!-- End etat prescription Field -->
@@ -369,18 +394,18 @@ $rand_val				= rand(1, 9999);
 				
 
 				<!-- Etat de l'ordonnance field -->
-				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
+				<div class="dc-dashboardbox dc-prescriptionbox">
 					<div class="dc-title">
-						<h4><?php echo $medicine_status; esc_html_e('Etat de l\'ordonnance','doctreat');?>:</h4>
+						<h4><?php esc_html_e('Etat de l\'ordonnance','doctreat');?>:</h4>
 					</div>
 					<div class="form-group">
-					<span class="dc-select">
-                    <select class="form-control" name="medicine_status">
+				
+                    <select class="form-control form-control-lg" name="medicine_status">
 					    <option value="">Oû en êtes vous avec l'ordonnance?</option>
 					    <option value="En cours" <?php if($medicine_status == "En cours") echo("selected")?>>En cours</option>
 						<option  value="Terminer"<?php if($medicine_status == "Terminer") echo("selected")?>>Terminer</option>
 					</select>
-					</span>
+					
 					</div>
 				</div>
 				<!-- End etat de l'ordonnance Field -
@@ -402,7 +427,6 @@ $rand_val				= rand(1, 9999);
 				</div>
 			    <!-- End etat de livraison Field  -->
 
-				
 
 					<div class="dc-updatall">
 					<?php wp_nonce_field('dc_prescription_submit_data_nonce', 'prescription_submit'); ?>
@@ -414,6 +438,114 @@ $rand_val				= rand(1, 9999);
 		</div>
 	</div>
 </div>
+<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+      </div>
+	  
+	
+      </div>
+     
+    </div>
+  </div>
+ </div> 
+
+<?php
+
+// foreach($_POST as $key=>$value)
+// {
+// 	echo $_POST[$key];
+// }
+
+//if(isset( $_POST['submit'] )) {
+
+	
+//var_dump ($user_identity);
+	
+//var_dump($patient_profile_id);
+	//echo $prescription['_patient_name'];
+ 
+	// if ( $pharmacy_id == $user_identity ) {
+    //    echo $prescription['_patient_name'];
+	// }
+
+	
+	//$prescription_id = $post ->ID;
+//   $prescription	= get_post_meta($prescription_id,'_detail', true);
+//   $pharmacy_id    = $prescription['_pharmacy1'];
+//   $patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
+//    $patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
+   
+
+  //  global $wpdb;
+// 	for ($i=0;$i<=100;$i++){
+// 		//echo $_POST['medoc'][$i]."<br>";
+//       $name = $_POST['medoc'][$i];
+//       $type = $_POST['type'][$i];
+// 	  $prix = $_POST['prix'][$i];
+// 	 // $totalPrix = sum($_POST['prix'][$i]);
+// 	  //echo $totalPrix;
+// 	  $dateo = date("Y-m-d");
+// 	  if( (!empty($name)) && (!empty($type)) && (!empty($prix)) ) {
+
+		
+// 		//$update = $wpdb->query ("UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
+// 		$insert = $wpdb->query("INSERT INTO `ordonnance`(`medicament`, `type` , `prix`, `prescription_id`, `pharmacie_id`, `status_ordonnance`, `date`) VALUES ('$name', '$type', '$prix', '$prescription_id', '$user_identity', 'validé', '$dateo')");
+// 	  }
+// 	//   $insert = $wpdb->query("INSERT INTO `ordonnance`(`prescription_id`, `pharmacie_id`, `medicament`, `prix`, `patient_id`, `patient_name`, `pharmacie_name`, `status`, `date`) 
+// 	//                           VALUES (
+// 	// 							  '$prescription_id', 
+// 	// 						      '$pharmacy_id',
+// 	// 							  '$name',
+// 	// 							  '$prix',
+// 	// 							  '$patient_id',
+// 	// 							  '',
+// 	// 							  '',
+// 	// 							  '',
+// 	// 							  '',
+// 	// 							  '',
+// 	// 						  )");
+// 		}
+// //	print_r($_POST['medoc']);
+// 	//var_dump($_POST['medoc']);
+//  //$name = $_POST['medoc'];
+// // $prix = $_POST['prix'];
+//  //foreach( $name as $key => $d )    {
+// 	  // echo $name[$key];
+// //     global $wpdb;
+
+// // 	$name[] = $_POST['medoc'];
+// 	//echo $name[$key];
+// 	//echo $prix[$key];
+// 	//var_dump($_POST['medoc']);
+// 	//$prix = $_POST['prix'];
+// // $table_name = $wpdb->"ordonnance";
+// // $wpdb->insert( $table_name, array(
+// //     'medicament' => $name,
+// //     'prix' => $prix,
+// // ) );
+// 	// global $wpdb;
+// 	// foreach($_POST as $info)
+// 	// {
+// 	 	//$insert = $wpdb->query("INSERT INTO `ordonnance`(`medicament`, `prix`) VALUES ('$name', '$prix')");
+		
+// 	// }
+    
+// //}
+// }
+
+
+//$colorList[] = "red"; $colorList[] = "green"; $colorList[] = "blue"; $colorList[] = "black"; $colorList[] = "white"; $colorList[] = "marron";
+
+
+
+
+   //$info = isset( ($_POST['medoc']) &&($_POST['type']) &&($_POST['prix']) ) ? $_POST['medoc'] $_POST['type'] $_POST['prix'] : array();
+   //print_r($info);
+//   $type = isset($_POST['type']) ? $_POST['type'] : array();
+//   print_r($type);
+//   $prix = isset($_POST['prix']) ? $_POST['prix'] : array();
+//   print_r($prix);
+?>
 
 <script type="text/template" id="tmpl-load-dc-visals">
 	<div class="dc-visal-sign dc-visal-{{data.id}}">
@@ -475,7 +607,3 @@ $js_script	= "
 	";
 
 	wp_add_inline_script( 'doctreat-dashboard', $js_script, 'after' );
-
-
-
-

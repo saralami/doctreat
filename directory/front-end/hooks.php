@@ -744,9 +744,14 @@ if (!function_exists('doctreat_get_user_type')) {
                 return 'hospitals';
             } else if (!empty($data->roles[0]) && $data->roles[0] === 'regular_users') {
                 return 'regular_users';
-			} else if (!empty($data->roles[0]) && $data->roles[0] === 'pharmacies') {
+			} 
+			else if (!empty($data->roles[0]) && $data->roles[0] === 'pharmacies') {
                 return 'pharmacies';
-            } else{
+			}
+			else if (!empty($data->roles[0]) && $data->roles[0] === 'manager_ordonnance') {
+                return 'manager_ordonnance';
+			}
+			 else{
                 return false;
             }
         }

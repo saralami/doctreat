@@ -58,12 +58,4 @@ if( class_exists( 'DoctreatGlobalSettings' ) ) {
     require_once ( get_stylesheet_directory() . '/includes/class-pdf.php'); //Hooks
 }
 
-// add_role(
-// 	'custom_editor',
-// 	__( 'Pharmacies' ),
-// 	array(
-// 	'read'         => true,  // true allows this capability
-// 	'edit_posts'   => true,
-// 	)
-// 	);
 

@@ -23,7 +23,7 @@ $doctor_booking_option			= '';
 if( function_exists( 'doctreat_get_booking_oncall_doctors_option' ) ) {
 	$doctor_booking_option	= doctreat_get_booking_oncall_doctors_option();
 }
-//var_dump($user_type);
+
 if( have_posts() ) {
 	while ( have_posts() ) : the_post();
 	the_content();
@@ -36,7 +36,7 @@ if( have_posts() ) {
 }
 
 if ( is_user_logged_in() 
-	&& ( $user_type === 'doctors' || $user_type === 'hospitals' || $user_type === 'regular_users' || $user_type === 'pharmacies' ) ) {
+	&& ( $user_type === 'doctors' || $user_type === 'hospitals' || $user_type === 'regular_users' || $user_type === 'pharmacies'  || $user_type === 'manager_ordonnance' ) ) {
 	Doctreat_Profile_Menu::doctreat_profile_menu_left(); 
 
 	if( empty( $is_verified ) || $is_verified === 'no' ){

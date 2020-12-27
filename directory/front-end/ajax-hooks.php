@@ -3988,7 +3988,9 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 						<a href="javascript:;" data-toggle="modal" data-target="#send_message" class="dc-btn dc-send-message dc-msgbtn"><i class="ti-email"></i></a>
 
 						<?php if( !empty($prescription_id) ){
-
+						   $prescription	= get_post_meta( $prescription_id, '_detail', true );
+						   $medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
+						   //var_dump($medicine);
 
 							?>
 
@@ -3996,13 +3998,23 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 								<input type="hidden" name="pdf_booking_id" value="<?php echo intval($booking_id);?>">
 								<a href="javascript:;" onclick="document.forms['download_pdf'].submit(); return false;" class="dc-btn dc-pdfbtn"><i class="ti-download"></i></a>
 							</form>
+                            <?php if(!empty($medicine)){
 
+							 ?>
 							<div class="dc-rightarea">
-
-							     <a href="javascript:;" data-toggle="modal" data-target="#send_medication" class="dc-btn dc-btn-sm dc-rightarea ">Envoyer l'ordonnance a une pharmacie</a>
+                              <a href="javascript:;" data-toggle="modal" data-target="#send_medication" class="dc-btn dc-btn-sm dc-rightarea ">Envoyer l'ordonnance a une pharmacie</a>
 							</div>
 
-						<?php } ?>
+						<?php 
+						} else {
+							?>
+							<div class="dc-rightarea">
+                              <a href="javascript:;" class="dc-btn dc-btn-sm dc-rightarea ">Aucune ordonnance reçu!</a>
+							</div>
+							<?php
+						}
+					    } 
+					?>
 					</div>
 				<?php } ?>
 
@@ -4034,7 +4046,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 				<div class="modal-dialog" role="document">
 					<div class="dc-modalcontent modal-content">
 						<div class="dc-popuptitle">
-							<h3><?php esc_html_e('Envoyez votre ordonnance','doctreat');?></h3>
+							<h3><?php esc_html_e('Votre ordonnance','doctreat');?></h3>
 							<a href="javascript:;" class="dc-closebtn close dc-close" data-dismiss="modal" aria-label="<?php esc_attr_e('Close','doctreat');?>"><i class="ti-close"></i></a>
 						</div>
 						<div class="dc-formtheme dc-vistingdocinfo">
@@ -4080,7 +4092,15 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 									$bk_phone		= !empty($prescription['_phone']) ? $prescription['_phone'] : '';
 									$age			= !empty($prescription['_age']) ? $prescription['_age'] : '';
 									$pharmacy1			= !empty($prescription['_pharmacy1']) ? $prescription['_pharmacy1'] : '';
-									$gender			= !empty($prescription['_gender']) ? $prescription['_gender'] : '';
+
+									//PRESCRIPTION STATUS 
+	                                $prescription_status = !empty($prescription['_prescription_status']) ? $prescription['_prescription_status'] : '';
+									//MEDICINE STATUS 
+									$medicine_status = !empty($prescription['_medicine_status']) ? $prescription['_medicine_status'] : '';
+									//DELIVERY STATUS 
+									$delivery_status = !empty($prescription['_delivery_status']) ? $prescription['_delivery_status'] : '';
+
+									$gender	= !empty($prescription['_gender']) ? $prescription['_gender'] : '';
 
 									$medical_history	= !empty($prescription['_medical_history']) ? $prescription['_medical_history'] : '';
 									$medicine			= !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
@@ -4114,14 +4134,31 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 								$rand_val				= rand(1, 9999);
 
 							?>
-							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+							<!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"> -->
 								<div class="dc-haslayout dc-prescription-wrap dc-dashboardbox dc-dashboardtabsholder">
-									<div class="dc-dashboardboxtitle">
-										<h2><?php esc_html_e('Generate Patient Prescription','doctreat');?></h2>
-									</div>
+									<!-- <div class="dc-dashboardboxtitle">
+										<h2><?php //esc_html_e('','doctreat');?></h2>
+									</div> -->
 									<div class="dc-dashboardboxcontent">
+
+									<?php 
+									     if(!empty($medicine)) {
+
+										
+									  ?>
+									       <fieldset>
+										       <div class="form-group">
+													<form method="post" name="downloa_pdf">
+													<input type="hidden" name="pdf_doctor_id" value="<?php echo intval($booking_id);?>">
+													<span>Telechargez votre ordonnance ou envoyez la a une de nos pharmacies</span>
+													<a href="javascript:;" onclick="document.forms['downloa_pdf'].submit(); return false;" class="dc-btn dc-pdfbtn"><i class="ti-download"></i></a>
+													</form>
+												</div>
+											</fieldset>
+										 <?php } ?>	
+
 										<form class="dc-prescription-form" method="post">
-											<div class="dc-dashboardbox dc-prescriptionbox">
+											<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 												<div class="dc-title">
 													<h4><?php esc_html_e('Patient Information','doctreat');?>:</h4>
 												</div>
@@ -4161,7 +4198,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 													</fieldset>
 												</div>
 											</div>
-											<div class="dc-dashboardbox dc-prescriptionbox">
+											<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 												<div class="dc-title">
 													<h4><?php esc_html_e('Marital Status','doctreat');?>:</h4>
 												</div>
@@ -4283,12 +4320,15 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 													</fieldset>
 													<?php
 														if( !empty($medicine) ){
+
+		                                   
 															foreach( $medicine as $key => $values ){
 																$name_val				= !empty($values['name']) ? $values['name'] : '';
 																$medicine_types_val		= !empty($values['medicine_types']) ? $values['medicine_types'] : '';
 																$medicine_duration_val	= !empty($values['medicine_duration']) ? $values['medicine_duration'] : '';
 																$medicine_usage_val		= !empty($values['medicine_usage']) ? $values['medicine_usage'] : '';
 																$detail_val				= !empty($values['detail']) ? $values['detail'] : '';
+																$price_val = !empty($values['price']) ? $values['price'] : '';
 															?>
 																<div class="dc-visal-sign dc-medician-<?php echo esc_attr($key);?>">
 																	<fieldset>
@@ -4304,6 +4344,11 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 																		<div class="form-group form-group-half">
 																			<?php do_action( 'doctreat_get_texnomy_select','medicine_usage','medicine['.esc_attr($key).'][medicine_usage]',esc_html__('Select medician Usage','doctreat') ,$medicine_usage_val,'medicine_usage-'.esc_attr($key).'');?>
 																		</div>
+																		 <!-- INPUT PRICE -->
+																		<div class="form-group dc-hide-form">
+																			<input type="text" name="medicine[<?php echo esc_attr($key);?>][price]" class="form-control" value="<?php echo esc_attr($price_val);?>" placeholder="<?php esc_attr_e('Price','doctreat');?>">
+																		</div>
+
 																		<div class="form-group dc-delete-group">
 																			<input type="text" name="medicine[<?php echo esc_attr($key);?>][detail]" value="<?php echo esc_attr($detail_val);?>" class="form-control" placeholder="<?php esc_attr_e('Add Comment','doctreat');?>">
 																			<a href="javascript:;" class="dc-deletebtn dc-remove-visual"><i class="lnr lnr-trash"></i></a>
@@ -4314,12 +4359,15 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 
 																</div>
 															<?php
+
 															}
-														}
+
+
+														} 
 													?>
 												</div>
 											</div>
-
+										
 											<!-- Pharmacy Field -->
 											<div class="dc-dashboardbox dc-prescriptionbox">
 												<div class="dc-title">
@@ -4329,31 +4377,68 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 													<span class="dc-select">
 														<?php
 															wp_dropdown_users(array('name' => 'pharmacy1', 'role' => 'pharmacies' ,'show_option_none' => esc_html__('Select a Pharmacy', 'doctreat'), 'selected' => $pharmacy1));
-															echo '<pre>'; print_r($prescription); echo '</pre>';
+															//echo '<pre>'; print_r($prescription); echo '</pre>';
 														?>
 
 														<?php // do_action('doctreat_get_pharmacies_list','pharmacy1',$pharmacy1);?>
 													</span>
-													<?php
-														// $pharmacy_list = array();
-														// $args_ph = array(
-														// 		'role'    => 'pharmacies',
-														// 		'orderby' => 'user_nicename',
-														// 		'order'   => 'ASC'
-														// );
-														// $users_ph = get_users( $args_ph );
-                                                       
-
-														// foreach ( $users_ph as $user_ph ) {
-														// 	$pharmacy_list[]= $user_ph->display_name;
-														// }
-
-
-													?>
-
 												</div>
 											</div>
 											<!-- End Pharmacy Field -->
+
+                                             	<!-- Etat de prescription Field -->
+        <div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
+					<div class="dc-title">
+						<h4><?php esc_html_e('Etat de la prinscription','doctreat');?>:</h4>
+					</div>
+					<div class="form-group">
+					<span class="dc-select">
+                    <select class="form-control" name="prescription_status">
+					    <option value="">Oû en êtes vous avec la prinscription?</option>
+					    <option value="En cours" <?php if($prescription_status == "En cours") echo("selected")?>>En cours</option>
+						<option  value="Terminer"<?php if($prescription_status == "Terminer") echo("selected")?>>Terminer</option>
+					</select>
+					</span>
+					</div>
+				</div>
+				<!-- End etat prescription Field -->
+                
+				
+
+				<!-- Etat de l'ordonnance field -->
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
+					<div class="dc-title">
+						<h4><?php echo $medicine_status; esc_html_e('Etat de l\'ordonnance','doctreat');?>:</h4>
+					</div>
+					<div class="form-group">
+					<span class="dc-select">
+                    <select class="form-control" name="medicine_status">
+					    <option value="">Oû en êtes vous avec l'ordonnance?</option>
+					    <option value="En cours" <?php if($medicine_status == "En cours") echo("selected")?>>En cours</option>
+						<option  value="Terminer"<?php if($medicine_status == "Terminer") echo("selected")?>>Terminer</option>
+					</select>
+					</span>
+					</div>
+				</div>
+				<!-- End etat de l'ordonnance Field -
+                
+				<!-- Etat de livraison Field -->
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
+					<div class="dc-title">
+						<h4><?php esc_html_e('Etat de la livraison des médicaments','doctreat');?>:</h4>
+					</div>
+					<div class="form-group">
+					
+                    <select class="form-control" name="delivery_status">
+					    <option value="">Oû en êtes vous avec la livraison?</option>
+					    <option value="En cours" <?php if($delivery_status == "En cours") echo("selected")?>>En cours</option>
+						<option  value="Terminer"<?php if($delivery_status == "Terminer") echo("selected")?>>Terminer</option>
+					</select>
+				
+					</div>
+				</div>
+			    <!-- End etat de livraison Field  -->
+										
 
 											<div class="dc-updatall">
 												<?php wp_nonce_field('dc_prescription_submit_data_nonce', 'prescription_submit'); ?>
@@ -4364,10 +4449,9 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 										</form>
 						</div>
 					</div>
-				</div>
+				<!-- </div> -->
 
-
-
+               
 
 
 
@@ -5109,6 +5193,13 @@ if (!function_exists('doctreat_update_prescription')) {
 		$phone					= !empty($_POST['phone']) ? sanitize_text_field($_POST['phone']) : '';
 		$age					= !empty($_POST['age']) ? sanitize_text_field($_POST['age']) : '';
 		$pharmacy1    = !empty($_POST['pharmacy1']) ? sanitize_text_field($_POST['pharmacy1']) : '';
+		//PRESCRIPTION STATUS
+		$prescription_status  = !empty($_POST['prescription_status']) ? sanitize_text_field($_POST['prescription_status']) : '';
+		//MEDICINE STATUS
+		$medicine_status  = !empty($_POST['medicine_status']) ? sanitize_text_field($_POST['medicine_status']) : '';
+		//DELIVERY STATUS
+		$delivery_status  = !empty($_POST['delivery_status']) ? sanitize_text_field($_POST['delivery_status']) : '';
+
 		$address				= !empty($_POST['address']) ? sanitize_text_field($_POST['address']) : '';
 		$location				= !empty($_POST['location']) ? doctreat_get_term_by_type('slug',sanitize_text_field($_POST['location']),'locations' ) : '';
 		$gender					= !empty($_POST['gender']) ? sanitize_text_field($_POST['gender']) : '';
@@ -5174,7 +5265,15 @@ if (!function_exists('doctreat_update_prescription')) {
 		$post_meta['_patient_name']		= $patient_name;
 		$post_meta['_phone']			= $phone;
 		$post_meta['_age']				= $age;
-		$post_meta['_pharmacy1']				= $pharmacy1;
+		$post_meta['_pharmacy1']		= $pharmacy1;
+
+		//prescription status
+		$post_meta['_prescription_status'] = $prescription_status;
+		//medicine status
+		$post_meta['_medicine_status'] = $medicine_status;
+		//delivery status
+		$post_meta['_delivery_status'] = $delivery_status;
+		
 		$post_meta['_address']			= $address;
 		$post_meta['_location']			= $location;
 		$post_meta['_gender']			= $gender;
