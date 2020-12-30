@@ -12,9 +12,19 @@
       <div class="modal-body">
 	     
       <?php
-	// echo $booking_id;
+      echo $prescription_id;
+/**
+ *
+ * The template part for add/update prescription
+ * @package   Doctreat
+ * @author    Amentotech
+ * @link      http://amentotech.com/
+ * @since 1.0
+ */
+//global $current_user;
+//var_dump($current_user);
+$booking_id	= get_post_meta( $prescription_id, '_booking_id', true );
 
-//$booking_id	= get_post_meta( $prescription_id, '_booking_id', true );
 
 //$booking_id			= !empty($_GET['booking_id']) ? intval($_GET['booking_id']) : "";
 
@@ -25,7 +35,7 @@ $shemale_checked	= '';
 $prescription_id	= '';
 $marital_status		= '';
 $medical_history	= '';
-//$medicine			= array();
+$medicine			= array();
 $diseases			= array();
 $childhood_illness	= array();
 $diseases_list		= array();
@@ -280,23 +290,10 @@ $rand_val				= rand(1, 9999);
 					<div class="dc-formtheme dc-userform" id="dc-medican-html">
 				
 						<?php
-						echo $prescrip_id = $post ->ID;
-                        echo $prescription_id;
-						
-                        // var_dump($prescription);
-						// $prescription	= get_post_meta($prescription_id,'_detail', true);
-					
-						 //$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
-						 //$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
- 
-						 //$medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
-						 
-							if( (!empty($medicine)) && ($prescription_id == $prescrip_id) ){
-								
+							if( !empty($medicine) ){
 								foreach( $medicine as $key => $values ){
-									//echo $booking_id;
-									//var_dump($values);
-									//echo $pharmacy_id    = $prescription['_pharmacy1'];
+                                 
+
 									$name_val				= !empty($values['name']) ? $values['name'] : '';
 									$medicine_types_val		= !empty($values['medicine_types']) ? $values['medicine_types'] : '';
 									$medicine_duration_val	= !empty($values['medicine_duration']) ? $values['medicine_duration'] : '';
@@ -571,18 +568,18 @@ $rand_val				= rand(1, 9999);
 				<input type="text" name="medicine[{{data.id}}][name]" class="form-control" value="{{data.name}}" placeholder="<?php esc_attr_e('Name','doctreat');?>">
 			</div>
 			<!-- INPUT PRICE -->
-			 <div class="form-group form-group-half">
+			<div class="form-group form-group-half">
 				<input type="text" name="price[{{data.id}}][price]" class="form-control" value="{{data.price}}" placeholder="<?php esc_attr_e('Price','doctreat');?>">
 			</div>
-			<!-- <div class="form-group form-group-half">
+			<div class="form-group form-group-half">
 				<?php do_action( 'doctreat_get_texnomy_select','medicine_types','medicine[{{data.id}}][medicine_types]',esc_html__('Select type','doctreat') ,'','medicine_types-{{data.id}}');?>
-			</div> -->
-			<!-- <div class="form-group form-group-half">
+			</div>
+			<div class="form-group form-group-half">
 				<?php do_action( 'doctreat_get_texnomy_select','medicine_duration','medicine[{{data.id}}][medicine_duration]',esc_html__('Select medicine duration','doctreat') ,'','medicine_duration-{{data.id}}');?>
-			</div> -->
-			<!-- <div class="form-group form-group-half">
+			</div>
+			<div class="form-group form-group-half">
 				<?php do_action( 'doctreat_get_texnomy_select','medicine_usage','medicine[{{data.id}}][medicine_usage]',esc_html__('Select medician Usage','doctreat') ,'','medicine_usage-{{data.id}}');?>
-			</div>  -->
+			</div>
 			<div class="form-group dc-delete-group">
 				<input type="text" name="medicine[{{data.id}}][detail]" value="{{data.detail}}" class="form-control" placeholder="<?php esc_attr_e('Add Comment','doctreat');?>">
 				<a href="javascript:;" class="dc-deletebtn dc-remove-visual"><i class="lnr lnr-trash"></i></a>

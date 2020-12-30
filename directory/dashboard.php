@@ -23,7 +23,7 @@ $doctor_booking_option			= '';
 if( function_exists( 'doctreat_get_booking_oncall_doctors_option' ) ) {
 	$doctor_booking_option	= doctreat_get_booking_oncall_doctors_option();
 }
-
+//var_dump($user_type);
 if( have_posts() ) {
 	while ( have_posts() ) : the_post();
 	the_content();
@@ -39,13 +39,14 @@ if ( is_user_logged_in()
 	&& ( $user_type === 'doctors' || $user_type === 'hospitals' || $user_type === 'regular_users' || $user_type === 'pharmacies'  || $user_type === 'manager_ordonnance' ) ) {
 	Doctreat_Profile_Menu::doctreat_profile_menu_left(); 
 
-	if( empty( $is_verified ) || $is_verified === 'no' ){
+	// if( empty( $is_verified ) || $is_verified === 'no' ){
+		if( (empty( $is_verified )  && $user_type != 'manager_ordonnance' ) || ($is_verified === 'no')  && $user_type != 'manager_ordonnance') {
 		$verify   = doctreat_get_signup_page_url('step', '1'); 
 		?>
 		  <div class="dc-haslayout dc-jobalertsdashboard">
 			<div class="row">
 				<div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-					<?php if(!empty($verify_user) && $verify_user === 'no' ){
+					<?php if(!empty($verify_user) && $verify_user === 'no' || $user ){
 							Doctreat_Prepare_Notification::doctreat_warning(esc_html__('Verification', 'doctreat'), esc_html__('Your account will be approved after the verification', 'doctreat'),'','');
 						} else{
 							Doctreat_Prepare_Notification::doctreat_warning(esc_html__('Verification', 'doctreat'), esc_html__('Your account is not verified. Please verify your account', 'doctreat'),$verify,esc_html__('Verify', 'doctreat'));
@@ -114,7 +115,7 @@ if ( is_user_logged_in()
 					get_template_part('directory/front-end/templates/dashboard', 'invoices');
 				} 
 
-				// History
+				// History users
 				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'history-regular' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/regular_users/history/dashboard', 'history');
 				} 
@@ -128,7 +129,7 @@ if ( is_user_logged_in()
 				} 
 
 				//Fin history
-                //Pharmacie
+                //HISTORIQUE ordonnance
 				
 				
 				else if ( !empty($ref) && $_GET['ref'] === 'account-settings' && ($url_identity === $user_identity) ) {

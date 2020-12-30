@@ -3706,7 +3706,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 
 			$booking_date	= get_post_meta($booking_id,'_am_booking', true);
 
-			$system_access				= !empty( $theme_settings['system_access'] ) ? $theme_settings['system_access'] : '';
+			$system_access	= !empty( $theme_settings['system_access'] ) ? $theme_settings['system_access'] : '';
 			if( empty($system_access) ){
 				$location_id	= get_post_meta($booking_id,'_booking_hospitals', true);
 				$hospital_id	= get_post_meta($location_id,'hospital_id', true);
@@ -4408,7 +4408,7 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 				<!-- Etat de l'ordonnance field -->
 				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
-						<h4><?php echo $medicine_status; esc_html_e('Etat de l\'ordonnance','doctreat');?>:</h4>
+						<h4><?php  esc_html_e('Etat de l\'ordonnance','doctreat');?>:</h4>
 					</div>
 					<div class="form-group">
 					<span class="dc-select">

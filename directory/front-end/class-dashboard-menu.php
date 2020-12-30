@@ -46,7 +46,7 @@ if (!class_exists('Doctreat_Profile_Menu')) {
 			$link_id		= doctreat_get_linked_profile_id( $user_identity );
 			$post_type		= !empty($link_id) ? get_post_type($link_id) : '';
 			
-			if( !empty( $user_identity ) && !empty($post_type) && ( $post_type === 'hospitals' || $post_type === 'doctors' || $post_type === 'regular_users' || $post_type === 'pharmacies'  || $post_type === 'manager_ordonnance') ){
+			if( !empty( $user_identity ) && !empty($post_type) && ( $post_type === 'hospitals' || $post_type === 'doctors' || $post_type === 'regular_users' || $post_type === 'pharmacies') ){
             	ob_start();
 				$username 		= doctreat_get_username($current_user->ID);
 

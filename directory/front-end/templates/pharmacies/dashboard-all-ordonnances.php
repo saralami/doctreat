@@ -44,10 +44,28 @@ $sorting 			= 'ID';
 	);
     $querybooking = new WP_Query($args);
 	$count_booking = $query->found_posts;
+	$medicine_status = !empty($_POST['medicine_status']) ? $_POST['medicine_status'] : '';
+	
+//if(isset($_POST)){
 
-
+//}
 	?>
-
+	 <form action="" method="POST">
+	  	<!-- Etat de l'ordonnance field -->
+		 
+					<div class="form-group">
+					<select class="form-control-lg" name="medicine_status">
+					    <option value="">Toutes les ordonnances</option>
+					    <option value="En cours" <?php if($medicine_status == "En cours") echo("selected")?>>En cours</option>
+						<option  value="Terminer"<?php if($medicine_status == "Terminer") echo("selected")?>>Terminer</option>
+					</select>
+				  </div>
+			<!-- End etat de l'ordonnance Field  -->
+			<div class="form-group">
+			    <button type="submit" class="btn btn-outline-primary">Rechercher</button>
+			</div>
+			
+	 </form>
 		<div class="table-responsive">
 			<table class="table table-hover table-bordered border-primary">
 			
@@ -62,13 +80,14 @@ $sorting 			= 'ID';
 					</tr>
 				</thead>
 				<tbody>
-				
+			
 				  <?php 
-         
+					//echo $medicine_status;
+					
 						// while ( $querybooking->have_posts() ) : $querybooking->the_post();
 						
 						// //$booking_id = $post->ID;
-                        
+						//var_dump($medicine_status);
                         // endwhile;
 						while ( $query->have_posts() ) : $query->the_post();
 						global $post;
@@ -79,20 +98,21 @@ $sorting 			= 'ID';
 
 						$prescription	= get_post_meta($prescription_id,'_detail', true);
 						$pharmacy_id    = $prescription['_pharmacy1'];
-						$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
-						$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
-
+						//$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
+						//$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
+						$booking_id	= get_post_meta( $prescription_id, '_booking_id', true );
 						$medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
-
+						//$med_status = !empty($prescription['_medicine_status']) ? $prescription['_medicine_status'] : '';
+						//$prescription_status = !empty($prescription['_prescription_status']) ? $prescription['_prescription_status'] : array();
 				  if ( $pharmacy_id == $user_identity ) { 
-				
-							  
-					if( !empty($medicine) ){
-
-						foreach($medicine as $values){
-							$price_val = !empty($values['price']) ? $values['price'] : '';
-							if(empty($price_val)){
-								//echo  "Les prix doivent etre ajoutés";
+					echo $booking_id;
+					if(!empty($medicine)){
+					
+						//echo $prescription_id;
+						
+						//foreach($medicine as $values){
+							//$price_val = !empty($values['price']) ? $values['price'] : '';
+						
 						
 						
 					 ?>
@@ -116,9 +136,8 @@ $sorting 			= 'ID';
 
 				  <?php
 					include('modalmedecine.php');
-					} 
-					}
-					}
+					}  
+					 //}
 					}
 					endwhile;
 				?>

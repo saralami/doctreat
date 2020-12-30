@@ -559,8 +559,8 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 				'type'	=> 'pharmacies'
 			),
 
-			'manager ordonnance'	=> array(
-				'title' => esc_html__('Ordonnance','doctreat'),
+			'historique-ordonnance'	=> array(
+				'title' => esc_html__('Historique ordonnance','doctreat'),
 				'type'	=> 'manager_ordonnance'
 			),
 			'logout'	=> array(
@@ -1740,7 +1740,7 @@ if ( ! function_exists( 'doctreat_list_user_types' ) ) {
 						'doctors'		=> esc_html__("Doctor",'doctreat'),
 						'regular_users' => esc_html__("Patient",'doctreat'),
 						'pharmacies' => esc_html__("Pharmacie",'doctreat'), 
-						'manager_ordonnance' => esc_html__("Manager ordonnance",'doctreat') 
+						//'manager_ordonnance' => esc_html__("Manager ordonnance",'doctreat') 
 					);
 		
 		if( !empty($system_access) ){

@@ -748,7 +748,7 @@ if (!function_exists('doctreat_get_user_type')) {
 			else if (!empty($data->roles[0]) && $data->roles[0] === 'pharmacies') {
                 return 'pharmacies';
 			}
-			else if (!empty($data->roles[0]) && $data->roles[0] === 'manager_ordonnance') {
+			else if (!empty($data->roles[0]) && $data->roles[0] === 'administrator') {
                 return 'manager_ordonnance';
 			}
 			 else{

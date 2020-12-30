@@ -126,11 +126,11 @@ if (!function_exists('doctreat_add_user_roles')) {
         add_role('doctors', esc_html__('Doctor', 'doctreat'));
         add_role('regular_users', esc_html__('Patients', 'doctreat'));
         add_role('pharmacies', esc_html__('Pharmacie', 'doctreat'));
-        add_role('manager_ordonnance', esc_html__('Manager ordonnance', 'doctreat'));
+        //add_role('manager_ordonnance', esc_html__('Manager ordonnance', 'doctreat'));
 
         if( !empty($system_access) ){
             remove_role('hospitals');
-            //remove_role('pharmacies');
+           // remove_role('manager_ordonnance');
            
         } else {
             add_role('hospitals', esc_html__('Hospital', 'doctreat'));
