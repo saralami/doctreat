@@ -84,16 +84,16 @@
 if( !empty($prescription_id) ){
 	//$prescription	= get_post_meta( $prescription_id, '_detail', true );
 
-	$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
+	//$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
 
-	$patient_id			= !empty($patient_id) ? $patient_id : '';
-	$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
+	//$patient_id			= !empty($patient_id) ? $patient_id : '';
+	//$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
 
 	//$medicine				= !empty($_POST['medicine']) ? ($_POST['medicine']) : array();
 	$bk_username	= !empty($prescription['_patient_name']) ? $prescription['_patient_name'] : '';
 	$bk_phone		= !empty($prescription['_phone']) ? $prescription['_phone'] : '';
 	$age			= !empty($prescription['_age']) ? $prescription['_age'] : '';
-	$pharmacy1		= !empty($prescription['_pharmacy1']) ? $prescription['_pharmacy1'] : '';
+	//$pharmacy1		= !empty($prescription['_pharmacy1']) ? $prescription['_pharmacy1'] : '';
 
 	//PRESCRIPTION STATUS 
 	$prescription_status = !empty($prescription['_prescription_status']) ? $prescription['_prescription_status'] : '';
@@ -125,8 +125,8 @@ if( !empty($prescription_id) ){
 
 //$prescription_id	= !empty($prescription_id) ? $prescription_id : '';
 $username			= !empty($bk_username) ? $bk_username : '';
-$phone				= !empty($bk_phone) ? $bk_phone : '';
-$patient_address	= !empty($patient_address) ? $patient_address : '';
+//$phone				= !empty($bk_phone) ? $bk_phone : '';
+//$patient_address	= !empty($patient_address) ? $patient_address : '';
 
 // if( !empty( $location[0]->term_id ) ){
 // 	$location = !empty( $location[0]->term_id ) ? $location[0]->term_id : '';
