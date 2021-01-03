@@ -36,16 +36,24 @@ $sorting 			= 'ID';
     $query 		= new WP_Query($args_ph);
 	$count_post = $query->found_posts;
 
-// Booking
-	$args = array(
-		'posts_per_page' 	=> $show_posts,
-		'post_type' 		=> 'booking',
-		'post_status' 		=> array('publish'),
-	);
-    $querybooking = new WP_Query($args);
-	$count_booking = $query->found_posts;
-	$medicine_status = !empty($_POST['medicine_status']) ? $_POST['medicine_status'] : '';
+	$posts = $query->posts;
 	
+		
+// Booking
+	// $args = array(
+	// 	'posts_per_page' 	=> $show_posts,
+	// 	'post_type' 		=> 'booking',
+	// 	'post_status' 		=> array('publish'),
+	// );
+    // $querybooking = new WP_Query($args);
+	//$count_booking = $query->found_posts;
+	$medicine_status = !empty($_POST['medicine_status']) ? $_POST['medicine_status'] : '';
+	//$medicine = !empty($_POST['medicine']) ? ($_POST['medicine']) : array();
+	//while ( $query->have_posts() ) : $query->the_post();
+	  
+	//endwhile;
+
+	//var_dump($ord);
 //if(isset($_POST)){
 
 //}
@@ -84,36 +92,32 @@ $sorting 			= 'ID';
 				  <?php 
 					//echo $medicine_status;
 					
-						// while ( $querybooking->have_posts() ) : $querybooking->the_post();
+						//while ( $querybooking->have_posts() ) : $querybooking->the_post();
 						
 						// //$booking_id = $post->ID;
 						//var_dump($medicine_status);
                         // endwhile;
-						while ( $query->have_posts() ) : $query->the_post();
-						global $post;
-                         
-						 $prescription_id = $post ->ID;
+						//while ( $query->have_posts() ) : $query->the_post();
+						//foreach($ord as $ordo) {
+						//global $post;
+                        // var_dump($ordo);
+//echo $prescription_id = $ordo->ID;
 
-						
-
+						foreach($posts as $post){
+							$prescription_id = $post->ID;
+                        //var_dump($post);
 						$prescription	= get_post_meta($prescription_id,'_detail', true);
 						$pharmacy_id    = $prescription['_pharmacy1'];
 						//$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
 						//$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
 						$booking_id	= get_post_meta( $prescription_id, '_booking_id', true );
-						$medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
+						//$medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
 						//$med_status = !empty($prescription['_medicine_status']) ? $prescription['_medicine_status'] : '';
 						//$prescription_status = !empty($prescription['_prescription_status']) ? $prescription['_prescription_status'] : array();
 				  if ( $pharmacy_id == $user_identity ) { 
-					echo $booking_id;
-					if(!empty($medicine)){
-					
-						//echo $prescription_id;
-						
-						//foreach($medicine as $values){
-							//$price_val = !empty($values['price']) ? $values['price'] : '';
-						
-						
+					//echo $booking_id;
+				//	if(!empty($medicine)){
+
 						
 					 ?>
 				   <tr>
@@ -130,16 +134,22 @@ $sorting 			= 'ID';
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?php echo $prescription_id; ?>">
 				         Ordonnance 
 						</button>
-					  
+					
 					 </td>
 				  </tr>	 
 
 				  <?php
-					include('modalmedecine.php');
+				include('modalmedecine.php');
+				?>
+				
+				<?php
 					}  
-					 //}
+				
 					}
-					endwhile;
+					
+					//}
+				
+					//endwhile;
 				?>
 
 				

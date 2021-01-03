@@ -10,7 +10,7 @@
         </button>
       </div>
       <div class="modal-body">
-	     
+     
       <?php
 	// echo $booking_id;
 
@@ -18,77 +18,78 @@
 
 //$booking_id			= !empty($_GET['booking_id']) ? intval($_GET['booking_id']) : "";
 
-$timezone_string	= !empty(get_option('timezone_string')) ? get_option('timezone_string') : 'UTC';
-$male_checked		= '';
-$female_checked		= '';
-$shemale_checked	= '';
-$prescription_id	= '';
-$marital_status		= '';
-$medical_history	= '';
+// $timezone_string	= !empty(get_option('timezone_string')) ? get_option('timezone_string') : 'UTC';
+// $male_checked		= '';
+// $female_checked		= '';
+// $shemale_checked	= '';
+// $prescription_id	= '';
+// $marital_status		= '';
+// $medical_history	= '';
 //$medicine			= array();
-$diseases			= array();
-$childhood_illness	= array();
-$diseases_list		= array();
-$vital_signs		= array();
-if( !empty($booking_id) ){
+// $diseases			= array();
+// $childhood_illness	= array();
+// $diseases_list		= array();
+// $vital_signs		= array();
+// if( !empty($booking_id) ){
 
-	$doctor_profile_id	= doctreat_get_linked_profile_id($current_user->ID);
-	$specialities 		= wp_get_post_terms( $doctor_profile_id, 'specialities', array( 'fields' => 'ids' ) );
-	if(!empty($specialities) ){
-		$diseases_arg = array(
-				'hide_empty' => false,
-				'meta_query' => array(
-					array(
-					'key'       => 'speciality',
-					'value'     => $specialities,
-					'compare'   => 'IN'
-					)
-				),
-				'taxonomy'  => 'diseases',
-				'fields'	=> 'ids'
-			);
-		$diseases = get_terms( $diseases_arg );
-	}
-	$prescription_id	= get_post_meta( $booking_id, '_prescription_id', true );
-}
+// 	$doctor_profile_id	= doctreat_get_linked_profile_id($current_user->ID);
+// 	$specialities 		= wp_get_post_terms( $doctor_profile_id, 'specialities', array( 'fields' => 'ids' ) );
+// 	if(!empty($specialities) ){
+// 		$diseases_arg = array(
+// 				'hide_empty' => false,
+// 				'meta_query' => array(
+// 					array(
+// 					'key'       => 'speciality',
+// 					'value'     => $specialities,
+// 					'compare'   => 'IN'
+// 					)
+// 				),
+// 				'taxonomy'  => 'diseases',
+// 				'fields'	=> 'ids'
+// 			);
+// 		$diseases = get_terms( $diseases_arg );
+// 	}
+// 	$prescription_id	= get_post_meta( $booking_id, '_prescription_id', true );
+// }
 
-if( !empty($booking_id) && empty($prescription_id) ){
-	$bk_username	= get_post_meta( $booking_id, 'bk_username', true );
-	$bk_phone		= get_post_meta( $booking_id, 'bk_phone', true );
-	$patient_id		= get_post_field( 'post_author', $booking_id );
-	$patient_id		= !empty($patient_id) ? $patient_id : '';
-	$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
+// if( !empty($booking_id) && empty($prescription_id) ){
+// 	$bk_username	= get_post_meta( $booking_id, 'bk_username', true );
+// 	$bk_phone		= get_post_meta( $booking_id, 'bk_phone', true );
+// 	$patient_id		= get_post_field( 'post_author', $booking_id );
+// 	$patient_id		= !empty($patient_id) ? $patient_id : '';
+// 	$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
 
-	$patient_address	= get_post_meta( $patient_profile_id , '_address',true );
-	$base_name			= doctreat_get_post_meta( $patient_profile_id , 'am_name_base' );
-	$base_name			= !empty($base_name) ? $base_name : '';
+// 	$patient_address	= get_post_meta( $patient_profile_id , '_address',true );
+// 	$base_name			= doctreat_get_post_meta( $patient_profile_id , 'am_name_base' );
+// 	$base_name			= !empty($base_name) ? $base_name : '';
 
-	$dob				= get_post_meta( $patient_profile_id , '_dob',true );
-	$dob				= !empty($dob) ? $dob : '12/12/1990';
+// 	$dob				= get_post_meta( $patient_profile_id , '_dob',true );
+// 	$dob				= !empty($dob) ? $dob : '12/12/1990';
 
-	$time_zone  = new DateTimeZone($timezone_string);
-	$age 		= !empty($dob) ? DateTime::createFromFormat('d/m/Y', $dob, $time_zone)->diff(new DateTime('now', $time_zone))->y : '';
+// 	$time_zone  = new DateTimeZone($timezone_string);
+// 	$age 		= !empty($dob) ? DateTime::createFromFormat('d/m/Y', $dob, $time_zone)->diff(new DateTime('now', $time_zone))->y : '';
 
-	if( !empty($base_name) ){
-		if($base_name === 'mr'){
-			$male_checked	= 'checked';
-		} else if($base_name === 'miss'){
-			$female_checked	= 'checked';
-		}
-	}
-	$location 			= apply_filters('doctreat_get_tax_query',array(),$patient_profile_id,'locations','');
-	//Get country
+// 	if( !empty($base_name) ){
+// 		if($base_name === 'mr'){
+// 			$male_checked	= 'checked';
+// 		} else if($base_name === 'miss'){
+// 			$female_checked	= 'checked';
+// 		}
+// 	}
+// 	$location 			= apply_filters('doctreat_get_tax_query',array(),$patient_profile_id,'locations','');
+// 	//Get country
 
 
-} else if( !empty($prescription_id) ){
-	$prescription	= get_post_meta( $prescription_id, '_detail', true );
+// } 
+if( !empty($prescription_id) ){
+	//$prescription	= get_post_meta( $prescription_id, '_detail', true );
 
 	$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
 
 	$patient_id			= !empty($patient_id) ? $patient_id : '';
 	$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
 
-
+	//$medicine				= !empty($_POST['medicine']) ? ($_POST['medicine']) : array();
 	$bk_username	= !empty($prescription['_patient_name']) ? $prescription['_patient_name'] : '';
 	$bk_phone		= !empty($prescription['_phone']) ? $prescription['_phone'] : '';
 	$age			= !empty($prescription['_age']) ? $prescription['_age'] : '';
@@ -104,35 +105,36 @@ if( !empty($booking_id) && empty($prescription_id) ){
 	$gender			= !empty($prescription['_gender']) ? $prescription['_gender'] : '';
 
 	$medical_history	= !empty($prescription['_medical_history']) ? $prescription['_medical_history'] : '';
-	$medicine			= !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
+	//$medicine			= !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
 	$vital_signs		= !empty($prescription['_vital_signs']) ? $prescription['_vital_signs'] : '';
 	$patient_address	= !empty($prescription['_address']) ? $prescription['_address'] : '';
 	$marital_status		= !empty($prescription['_marital_status']) ? $prescription['_marital_status'] : '';
 	$childhood_illness	= !empty($prescription['_childhood_illness']) ? $prescription['_childhood_illness'] : array();
-
-	if( !empty($gender) && $gender === 'male'){
-		$male_checked	= 'checked';
-	} else if(!empty($gender) && $gender === 'female'){
-		$female_checked	= 'checked';
-	}
+	$prescription	= get_post_meta($prescription_id,'_detail', true);
+	$medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
+	// if( !empty($gender) && $gender === 'male'){
+	// 	$male_checked	= 'checked';
+	// } else if(!empty($gender) && $gender === 'female'){
+	// 	$female_checked	= 'checked';
+	// }
 
 	$location 			= apply_filters('doctreat_get_tax_query',array(),$prescription_id,'locations','');
 	$diseases_list 		= wp_get_post_terms( $prescription_id, 'diseases', array( 'fields' => 'ids' ) );
 
 }
 
-$prescription_id	= !empty($prescription_id) ? $prescription_id : '';
+//$prescription_id	= !empty($prescription_id) ? $prescription_id : '';
 $username			= !empty($bk_username) ? $bk_username : '';
 $phone				= !empty($bk_phone) ? $bk_phone : '';
 $patient_address	= !empty($patient_address) ? $patient_address : '';
 
-if( !empty( $location[0]->term_id ) ){
-	$location = !empty( $location[0]->term_id ) ? $location[0]->term_id : '';
-}
+// if( !empty( $location[0]->term_id ) ){
+// 	$location = !empty( $location[0]->term_id ) ? $location[0]->term_id : '';
+// }
 
-$location 				= !empty( $location ) ? $location : '';
-$laboratory_tests 		= doctreat_get_taxonomy_array('laboratory_tests');
-$rand_val				= rand(1, 9999);
+// $location 				= !empty( $location ) ? $location : '';
+// $laboratory_tests 		= doctreat_get_taxonomy_array('laboratory_tests');
+// $rand_val				= rand(1, 9999);
 
 ?>
 <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8"> -->
@@ -278,21 +280,24 @@ $rand_val				= rand(1, 9999);
 				<div class="dc-dashboardbox dc-prescriptionbox dc-medications">
 			
 					<div class="dc-formtheme dc-userform" id="dc-medican-html">
-				
+			
 						<?php
-						echo $prescrip_id = $post ->ID;
+						// $prescrip_id = $post ->ID;
                         echo $prescription_id;
-						
+                       // echo $booking_id;
+						//$prescrip_id = 
                         // var_dump($prescription);
-						// $prescription	= get_post_meta($prescription_id,'_detail', true);
+						// $prescriptionn	= get_post_meta($prescription_id,'_detail', true);
 					
 						 //$patient_id		= get_post_meta( $prescription_id, '_patient_id', true );
 						 //$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
  
 						 //$medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
 						 
-							if( (!empty($medicine)) && ($prescription_id == $prescrip_id) ){
+							//if( (!empty($medicine)) && ($prescription_id == $prescrip_id) ){
+								//var_dump($medicine);
 								
+								//$medicin = !empty($prescriptionn['_medicine']) ? $prescriptionn['_medicine'] : array();
 								foreach( $medicine as $key => $values ){
 									//echo $booking_id;
 									//var_dump($values);
@@ -340,7 +345,7 @@ $rand_val				= rand(1, 9999);
 									</div>
 								<?php
 								}
-							}
+//}
 						?>
 					</div>
 				</div>
@@ -438,6 +443,7 @@ $rand_val				= rand(1, 9999);
 					<span onclick="doctreat_print();"><?php esc_html_e('Update all the latest changes made by you, by just clicking on “Save &amp; Update button.', 'doctreat'); ?></span>
 					<a class="dc-btn dc-update-prescription" data-booking_id="<?php echo intval( $booking_id ); ?>" href="javascript:;"><?php esc_html_e('Save &amp; Update', 'doctreat'); ?></a>
 				</div>
+				<?php echo $prescription_id; ?>
 			</form>
 		</div>
 	</div>
@@ -551,11 +557,11 @@ $rand_val				= rand(1, 9999);
 //   print_r($prix);
 ?>
 
-<script type="text/template" id="tmpl-load-dc-visals">
+<!-- <script type="text/template" id="tmpl-load-dc-visals">
 	<div class="dc-visal-sign dc-visal-{{data.id}}">
 		<fieldset>
 			<div class="form-group form-group-half">
-				<?php do_action( 'doctreat_get_texnomy_select','vital_signs','',esc_html__('Select vital sign','doctreat') ,'');?>
+				<?php //do_action( 'doctreat_get_texnomy_select','vital_signs','',esc_html__('Select vital sign','doctreat') ,'');?>
 			</div>
 			<div class="form-group form-group-half dc-delete-group">
 				<input type="text" name="vital_signs[{{data.id}}][value]" value="{{data.value}}" class="form-control" placeholder="<?php esc_attr_e('Value','doctreat');?>">
@@ -563,7 +569,7 @@ $rand_val				= rand(1, 9999);
 			</div>
 		</fieldset>
 	</div>
-</script>
+</script> -->
 <script type="text/template" id="tmpl-load-dc-medician">
 	<div class="dc-visal-sign dc-medician-{{data.id}}">
 		<fieldset>
@@ -576,38 +582,18 @@ $rand_val				= rand(1, 9999);
 			</div>
 			<!-- <div class="form-group form-group-half">
 				<?php do_action( 'doctreat_get_texnomy_select','medicine_types','medicine[{{data.id}}][medicine_types]',esc_html__('Select type','doctreat') ,'','medicine_types-{{data.id}}');?>
-			</div> -->
-			<!-- <div class="form-group form-group-half">
+			</div>
+			<div class="form-group form-group-half">
 				<?php do_action( 'doctreat_get_texnomy_select','medicine_duration','medicine[{{data.id}}][medicine_duration]',esc_html__('Select medicine duration','doctreat') ,'','medicine_duration-{{data.id}}');?>
-			</div> -->
-			<!-- <div class="form-group form-group-half">
+			</div>
+			<div class="form-group form-group-half">
 				<?php do_action( 'doctreat_get_texnomy_select','medicine_usage','medicine[{{data.id}}][medicine_usage]',esc_html__('Select medician Usage','doctreat') ,'','medicine_usage-{{data.id}}');?>
 			</div>  -->
-			<div class="form-group dc-delete-group">
+			<!-- <div class="form-group dc-delete-group">
 				<input type="text" name="medicine[{{data.id}}][detail]" value="{{data.detail}}" class="form-control" placeholder="<?php esc_attr_e('Add Comment','doctreat');?>">
 				<a href="javascript:;" class="dc-deletebtn dc-remove-visual"><i class="lnr lnr-trash"></i></a>
-			</div>
+			</div> -->
 		</fieldset>
 	</div>
 </script>
-<?php
-$js_script	= "
-	jQuery(document).ready(function(){
-		jQuery('.tests-".esc_js( $rand_val )."').select2({
-			tags: true,
-			insertTag: function (data, tag) {
-				data.push(tag);
-			},
-			createTag: function (params) {
-				return {
-				id: params.term,
-				text: params.term
-				}
-			}
-		});
 
-	} );
-
-	";
-
-	wp_add_inline_script( 'doctreat-dashboard', $js_script, 'after' );
