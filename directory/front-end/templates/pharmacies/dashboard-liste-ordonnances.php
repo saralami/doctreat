@@ -117,7 +117,7 @@ $sorting 			= 'ID';
 				  if ( $pharmacy_id == $user_identity ) { 
 					//echo $booking_id;
 				//	if(!empty($medicine)){
-
+					$prescription_url	= !empty($booking_id) ?Doctreat_Profile_Menu::doctreat_profile_menu_link('prescription', $user_identity,true,'view').'&booking_id='.$booking_id : '';
 						
 					 ?>
 				   <tr>
@@ -131,15 +131,17 @@ $sorting 			= 'ID';
 						<a href="javascript:;" class="dc-btn dc-btn-sm" id="dc-booking-service" data-id="<?php //echo intval($post->ID); ?>"><?php esc_html_e('View Details','doctreat');?></a>
 					</div> -->
                           <!-- Button trigger modal -->
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?php echo $prescription_id; ?>">
+						<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?php //echo $prescription_id; ?>">
 				         Ordonnance 
-						</button>
+						</button> -->
+
+						<a href="<?php echo esc_url($prescription_url);?>" class="btn btn-primary">Ordonnance</a>
 					
 					 </td>
 				  </tr>	 
 
 				  <?php
-				include('modalmedecine.php');
+			//	include('modalmedecine.php');
 				?>
 				
 				<?php

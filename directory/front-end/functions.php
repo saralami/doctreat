@@ -554,15 +554,16 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 				'title' => esc_html__('Medical History','doctreat'),
 				'type'	=> 'regular_users'
 			),
-			'pharmacie'	=> array(
-				'title' => esc_html__('Ordonnance','doctreat'),
-				'type'	=> 'pharmacies'
+			'ordonnances' => array(
+				'title' => esc_html__('Ordonnances','doctreat'),
+				'type'	=> 'pharmacie'
 			),
 
-			'historique-ordonnance'	=> array(
-				'title' => esc_html__('Historique ordonnance','doctreat'),
-				'type'	=> 'manager_ordonnance'
-			),
+			// 'liste-ordonnances'	=> array(
+			// 	'title' => esc_html__('Liste ordonnances','doctreat'),
+			// 	'type'	=> 'pharmacie'
+			// ),
+			
 			'logout'	=> array(
 				'title' => esc_html__('Logout','doctreat'),
 				'type'	=> 'none'

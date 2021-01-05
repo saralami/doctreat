@@ -129,8 +129,15 @@ if ( is_user_logged_in()
 				} 
 
 				//Fin history
-                //HISTORIQUE ordonnance
-				
+
+				//ORDONNANCE
+				// else if ( $user_type === 'doctors' && !empty($ref) && $_GET['ref'] === 'history' && ($url_identity === $user_identity) ) {
+				// 	get_template_part('directory/front-end/templates/dashboard', 'invoices');
+				// }
+				else if ( $user_type === 'pharmacie' && !empty($ref) && $_GET['ref'] === 'ordonnances' && ($url_identity === $user_identity) ) {
+					get_template_part('directory/front-end/templates/pharmacies/dashboard', 'ordonnances');
+				} 
+               //FIN ORDONNANCE
 				
 				else if ( !empty($ref) && $_GET['ref'] === 'account-settings' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/dashboard', 'account-manage');
