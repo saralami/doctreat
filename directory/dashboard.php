@@ -131,10 +131,10 @@ if ( is_user_logged_in()
 				//Fin history
 
 				//ORDONNANCE
-				// else if ( $user_type === 'doctors' && !empty($ref) && $_GET['ref'] === 'history' && ($url_identity === $user_identity) ) {
-				// 	get_template_part('directory/front-end/templates/dashboard', 'invoices');
-				// }
-				else if ( $user_type === 'pharmacie' && !empty($ref) && $_GET['ref'] === 'ordonnances' && ($url_identity === $user_identity) ) {
+				else if( $user_type === 'pharmacies' && $ref === 'appointment' && $mode === 'listing' && ($url_identity === $user_identity) ) {
+					get_template_part('directory/front-end/templates/pharmacies/dashboard', 'ordonnances');
+				}
+				else if ( $user_type === 'pharmacies' && !empty($ref) && $_GET['ref'] === 'ordonnances' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/pharmacies/dashboard', 'ordonnances');
 				} 
                //FIN ORDONNANCE

@@ -5168,7 +5168,7 @@ if (!function_exists('doctreat_update_prescription')) {
 
     function doctreat_update_prescription() {
 		global $current_user;
-
+       
 		if( function_exists('doctreat_is_demo_site') ) {
 			doctreat_is_demo_site() ;
 		}
@@ -5266,7 +5266,7 @@ if (!function_exists('doctreat_update_prescription')) {
 		$post_meta['_phone']			= $phone;
 		$post_meta['_age']				= $age;
 		$post_meta['_pharmacy1']		= $pharmacy1;
-
+	
 		//prescription status
 		$post_meta['_prescription_status'] = $prescription_status;
 		//medicine status
@@ -5306,9 +5306,15 @@ if (!function_exists('doctreat_update_prescription')) {
 		update_post_meta( $prescription_id, '_marital_status',$marital_status );
 
 		update_post_meta( $booking_id, '_prescription_id',$prescription_id );
-
+		  
 		$json['type'] 	 	= 'success';
 		$json['message'] 	= esc_html__('Prescription is updated successfully.', 'doctreat');
+
+		//$pharmacy_id  = get_post_meta( $prescription_id, '_pharmacy1', true );
+		//echo $pharmacy_id  = doctreat_get_linked_profile_id($pharmacy_id,'post');
+		// if($pharmacy_id == $current_user->ID) {
+		// 	$json['url'] = Doctreat_Profile_Menu::doctreat_profile_menu_link('ordonnances', $current_user->ID);
+		// }
 		$json['url']		= Doctreat_Profile_Menu::doctreat_profile_menu_link('appointment', $current_user->ID,true,'listing',$booking_id);
 		wp_send_json( $json );
 

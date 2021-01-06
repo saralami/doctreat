@@ -112,13 +112,15 @@ $sorting 			= 'ID';
 						//$patient_profile_id	= doctreat_get_linked_profile_id($patient_id);
 						$booking_id	= get_post_meta( $prescription_id, '_booking_id', true );
 						//$medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
-						//$med_status = !empty($prescription['_medicine_status']) ? $prescription['_medicine_status'] : '';
+						$med_status = !empty($prescription['_medicine_status']) ? $prescription['_medicine_status'] : '';
 						//$prescription_status = !empty($prescription['_prescription_status']) ? $prescription['_prescription_status'] : array();
 				  if ( $pharmacy_id == $user_identity ) { 
 					//echo $booking_id;
 				//	if(!empty($medicine)){
 					$prescription_url	= !empty($booking_id) ?Doctreat_Profile_Menu::doctreat_profile_menu_link('prescription', $user_identity,true,'view').'&booking_id='.$booking_id : '';
-						
+						if(empty($medicine_status)){
+
+					
 					 ?>
 				   <tr>
 				     <td> <?php echo $prescription['_patient_name'];?></td>
@@ -126,31 +128,47 @@ $sorting 			= 'ID';
 				     <td> <?php echo $prescription['_age'] ;?> </td>
 				     <td> <?php echo $prescription['_gender'];?></td>
 				     <td>
-					 <!-- <div class="dc-recent-content">
-						
-						<a href="javascript:;" class="dc-btn dc-btn-sm" id="dc-booking-service" data-id="<?php //echo intval($post->ID); ?>"><?php esc_html_e('View Details','doctreat');?></a>
-					</div> -->
-                          <!-- Button trigger modal -->
-						<!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#<?php //echo $prescription_id; ?>">
-				         Ordonnance 
-						</button> -->
-
-						<a href="<?php echo esc_url($prescription_url);?>" class="btn btn-primary">Ordonnance</a>
-					
+					     <a href="<?php echo esc_url($prescription_url);?>" class="btn btn-primary">Ordonnance</a>
 					 </td>
 				  </tr>	 
 
-				  <?php
-			//	include('modalmedecine.php');
+				 
+                 <?php
+					  }
+
+					  if( ($med_status == "Terminer") && ($medicine_status == "Terminer" ) ){
 				?>
+
+			   
+                 
+                   <tr>
+				     <td> <?php echo $prescription['_patient_name'];?></td>
+				     <td> <?php echo $prescription['_phone']; ?> </td>
+				     <td> <?php echo $prescription['_age'] ;?> </td>
+				     <td> <?php echo $prescription['_gender'];?></td>
+				     <td>
+					     <a href="<?php echo esc_url($prescription_url);?>" class="btn btn-primary">Ordonnance</a>
+					 </td>
+				  </tr>	 
 				
 				<?php
 					}  
-				
+					if( ($med_status == "En cours") && ($medicine_status == "En cours" ) ){
+					?>
+					<tr>
+				     <td> <?php echo $prescription['_patient_name'];?></td>
+				     <td> <?php echo $prescription['_phone']; ?> </td>
+				     <td> <?php echo $prescription['_age'] ;?> </td>
+				     <td> <?php echo $prescription['_gender'];?></td>
+				     <td>
+					     <a href="<?php echo esc_url($prescription_url);?>" class="btn btn-primary">Ordonnance</a>
+					 </td>
+				  </tr>	 
+					<?php	
 					}
 					
-					//}
-				
+					}
+				    }
 					//endwhile;
 				?>
 

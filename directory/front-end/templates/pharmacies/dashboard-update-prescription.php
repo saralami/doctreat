@@ -21,6 +21,7 @@ $diseases			= array();
 $childhood_illness	= array();
 $diseases_list		= array();
 $vital_signs		= array();
+
 if( !empty($booking_id) ){
 
 	$doctor_profile_id	= doctreat_get_linked_profile_id($current_user->ID);
@@ -139,23 +140,23 @@ $rand_val				= rand(1, 9999);
 					<div class="dc-formtheme dc-userform">
 						<fieldset>
 							<div class="form-group form-group-half">
-								<input type="text" name="patient_name" class="form-control" value="<?php echo esc_attr($username);?>" placeholder="<?php esc_attr_e('Patient Name','doctreat');?>">
+								<input type="text" name="patient_name" class="form-control" value="<?php echo esc_attr($username);?>" placeholder="<?php esc_attr_e('Patient Name','doctreat');?>" readonly>
 							</div>
 							<div class="form-group form-group-half">
-								<input type="text" name="phone" class="form-control" value="<?php echo esc_attr($bk_phone);?>" placeholder="<?php esc_attr_e('Patient Phone','doctreat');?>">
+								<input type="text" name="phone" class="form-control" value="<?php echo esc_attr($bk_phone);?>" placeholder="<?php esc_attr_e('Patient Phone','doctreat');?>" readonly>
 							</div>
 							<div class="form-group form-group-half">
-								<input type="text" name="age" class="form-control" value="<?php echo esc_attr($age);?>" placeholder="<?php esc_attr_e('Age','doctreat');?>">
+								<input type="text" name="age" class="form-control" value="<?php echo esc_attr($age);?>" placeholder="<?php esc_attr_e('Age','doctreat');?>" readonly>
 							</div>
 							<div class="form-group form-group-half">
-								<input type="text" name="address" value="<?php echo esc_attr($patient_address);?>" class="form-control" placeholder="<?php esc_attr_e('Address','doctreat');?>">
+								<input type="text" name="address" value="<?php echo esc_attr($patient_address);?>" class="form-control" placeholder="<?php esc_attr_e('Address','doctreat');?>" readonly>
 							</div>
-							<div class="form-group form-group-half">
+							<!-- <div class="form-group form-group-half">
 								<span class="dc-select">
-									<?php do_action('doctreat_get_locations_list','location',$location);?>
+									<?php //do_action('doctreat_get_locations_list','location',$location);?>
 								</span>
-							</div>
-							<div class="form-group form-group-half">
+							</div> -->
+							<div class="form-group form-group-half dc-hide-form">
 								<div class="dc-radio-holder">
 									<span class="dc-radio">
 										<input id="dc-mo-male" type="radio" name="gender" value="male" <?php echo esc_attr($male_checked);?>>
@@ -170,7 +171,7 @@ $rand_val				= rand(1, 9999);
 						</fieldset>
 					</div>
 				</div>
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Marital Status','doctreat');?>:</h4>
 					</div>
@@ -179,7 +180,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Childhood illness','doctreat');?>:</h4>
 					</div>
@@ -188,7 +189,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Diseases','doctreat');?>:</h4>
 					</div>
@@ -197,7 +198,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Select Laboratory Tests', 'doctreat'); ?></h4>
 					</div>
@@ -222,7 +223,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Common Issue','doctreat');?>:</h4><a href="javascript:;" class="dc-add-vitals"><?php esc_html_e('Add New','doctreat');?></a>
 					</div>
@@ -256,7 +257,7 @@ $rand_val				= rand(1, 9999);
 						}
 					?>
 				</div>
-				<div class="dc-dashboardbox dc-prescriptionbox">
+				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Medical History','doctreat');?>:</h4>
 					</div>
@@ -269,27 +270,9 @@ $rand_val				= rand(1, 9999);
 					</div>
 				</div>
 				<div class="dc-dashboardbox dc-prescriptionbox dc-medications">
-					<div class="dc-title">
-						<h4><?php esc_html_e('Medications','doctreat');?>:</h4> <a href="javascript:;" class="dc-add-medician"><?php esc_html_e('Add New','doctreat');?></a>
-					</div>
+				
 					<div class="dc-formtheme dc-userform" id="dc-medican-html">
-						<fieldset>
-							<div class="form-group form-group-half">
-								<input type="text" id="medicine_name" class="form-control" placeholder="<?php esc_attr_e('Name','doctreat');?>">
-							</div>
-							<div class="form-group form-group-half">
-								<?php do_action( 'doctreat_get_texnomy_select','medicine_types','',esc_html__('Select type','doctreat') ,'','medicine_types');?>
-							</div>
-							<div class="form-group form-group-half">
-								<?php do_action( 'doctreat_get_texnomy_select','medicine_duration','',esc_html__('Select medicine duration','doctreat') ,'','medicine_duration');?>
-							</div>
-							<div class="form-group form-group-half">
-								<?php do_action( 'doctreat_get_texnomy_select','medicine_usage','',esc_html__('Select medician Usage','doctreat') ,'','medicine_usage');?>
-							</div>
-							<div class="form-group">
-								<input type="text" id="medicine_details" class="form-control" placeholder="<?php esc_attr_e('Add Comment','doctreat');?>">
-							</div>
-						</fieldset>
+					
 						<?php
 							if( !empty($medicine) ){
 								foreach( $medicine as $key => $values ){
@@ -364,7 +347,7 @@ $rand_val				= rand(1, 9999);
 				<!-- End Pharmacy Field -->
 
 						<!-- Etat de prescription Field -->
-					<div class="dc-dashboardbox dc-prescriptionbox">
+					<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
 					<div class="dc-title">
 						<h4><?php esc_html_e('Etat de la prinscription','doctreat');?>:</h4>
 					</div>
@@ -382,19 +365,17 @@ $rand_val				= rand(1, 9999);
 				
 
 				<!-- Etat de l'ordonnance field -->
-				<div class="dc-dashboardbox dc-prescriptionbox dc-hide-form">
+				<div class="dc-dashboardbox dc-prescriptionbox">
 					<div class="dc-title">
 						<h4><?php echo $medicine_status; esc_html_e('Etat de l\'ordonnance','doctreat');?>:</h4>
 					</div>
 					<div class="form-group">
-					<span class="dc-select">
-                    <select class="form-control" name="medicine_status">
+					 <select class="form-control form-control-lg" name="medicine_status">
 					    <option value="">Oû en êtes vous avec l'ordonnance?</option>
 					    <option value="En cours" <?php if($medicine_status == "En cours") echo("selected")?>>En cours</option>
 						<option  value="Terminer"<?php if($medicine_status == "Terminer") echo("selected")?>>Terminer</option>
 					</select>
-					</span>
-					</div>
+				</div>
 				</div>
 				<!-- End etat de l'ordonnance Field -
                 
@@ -405,7 +386,7 @@ $rand_val				= rand(1, 9999);
 					</div>
 					<div class="form-group">
 					
-                    <select class="form-control" name="delivery_status">
+                    <select class="form-control-lg" name="delivery_status">
 					    <option value="">Oû en êtes vous avec la livraison?</option>
 					    <option value="En cours" <?php if($delivery_status == "En cours") echo("selected")?>>En cours</option>
 						<option  value="Terminer"<?php if($delivery_status == "Terminer") echo("selected")?>>Terminer</option>
@@ -468,26 +449,26 @@ $rand_val				= rand(1, 9999);
 	</div>
 </script>
 <?php
-$js_script	= "
-	jQuery(document).ready(function(){
-		jQuery('.tests-".esc_js( $rand_val )."').select2({
-			tags: true,
-			insertTag: function (data, tag) {
-				data.push(tag);
-			},
-			createTag: function (params) {
-				return {
-				id: params.term,
-				text: params.term
-				}
-			}
-		});
+// $js_script	= "
+// 	jQuery(document).ready(function(){
+// 		jQuery('.tests-".esc_js( $rand_val )."').select2({
+// 			tags: true,
+// 			insertTag: function (data, tag) {
+// 				data.push(tag);
+// 			},
+// 			createTag: function (params) {
+// 				return {
+// 				id: params.term,
+// 				text: params.term
+// 				}
+// 			}
+// 		});
 
-	} );
+// 	} );
 
-	";
+// 	";
 
-	wp_add_inline_script( 'doctreat-dashboard', $js_script, 'after' );
+// 	wp_add_inline_script( 'doctreat-dashboard', $js_script, 'after' );
 
 
 

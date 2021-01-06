@@ -477,7 +477,7 @@ if (!function_exists('doctreat_get_linked_profile_id')) {
 if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 	function doctreat_get_dashboard_menu() {
 		global $current_user;
-		
+	
 		$menu_settings = get_option( 'dc_dashboard_menu_settings' );
 		
 		$list	= array(		
@@ -554,9 +554,9 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 				'title' => esc_html__('Medical History','doctreat'),
 				'type'	=> 'regular_users'
 			),
-			'ordonnances' => array(
+			'ordonnances'     => array(
 				'title' => esc_html__('Ordonnances','doctreat'),
-				'type'	=> 'pharmacie'
+				'type'	=> 'pharmacies'
 			),
 
 			// 'liste-ordonnances'	=> array(
