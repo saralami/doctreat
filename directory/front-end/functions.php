@@ -483,7 +483,15 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 		$list	= array(		
 			'insights'	=> array(
 				'title' => esc_html__('Dashboard','doctreat'),
-				'type'	=> 'none'
+				'type'	=> 'hospitals'
+			),
+			'insights'	=> array(
+				'title' => esc_html__('Dashboard','doctreat'),
+				'type'	=> 'regular_users'
+			),
+			'insights'	=> array(
+				'title' => esc_html__('Dashboard','doctreat'),
+				'type'	=> 'doctors'
 			),
 			'view-profile'	=> array(
 				'title' => esc_html__('View My Profile','doctreat'),
@@ -491,7 +499,16 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 			),
 			'chat'	=> array(
 				'title' => esc_html__('Inbox','doctreat'),
-				'type'	=> 'none'
+				'type'	=> 'hospitals'
+			),
+			'chat'	=> array(
+				'title' => esc_html__('Inbox','doctreat'),
+				'type'	=> 'regular_users'
+			),	
+			
+			'chat'	=> array(
+				'title' => esc_html__('Inbox','doctreat'),
+				'type'	=> 'doctors'
 			),
 			'profile-settings'	=> array(
 				'title' => esc_html__('Edit my profile','doctreat'),
@@ -532,7 +549,15 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 			
 			'saved'	=> array(
 				'title' => esc_html__('My Saved Items','doctreat'),
-				'type'	=> 'none'
+				'type'	=> 'doctors'
+			),
+			'saved'	=> array(
+				'title' => esc_html__('My Saved Items','doctreat'),
+				'type'	=> 'regular_users'
+			),
+			'saved'	=> array(
+				'title' => esc_html__('My Saved Items','doctreat'),
+				'type'	=> 'hospitals'
 			),
 			'packages'	=> array(
 				'title' => esc_html__('Packages','doctreat'),
@@ -554,16 +579,11 @@ if ( ! function_exists( 'doctreat_get_dashboard_menu' ) ) {
 				'title' => esc_html__('Medical History','doctreat'),
 				'type'	=> 'regular_users'
 			),
-			'ordonnances'     => array(
-				'title' => esc_html__('Ordonnances','doctreat'),
-				'type'	=> 'pharmacies'
-			),
-
-			// 'liste-ordonnances'	=> array(
-			// 	'title' => esc_html__('Liste ordonnances','doctreat'),
-			// 	'type'	=> 'pharmacie'
+			// 'ordonnances'     => array(
+			// 	'title' => esc_html__('Ordonnances','doctreat'),
+			// 	'type'	=> 'pharmacies'
 			// ),
-			
+
 			'logout'	=> array(
 				'title' => esc_html__('Logout','doctreat'),
 				'type'	=> 'none'

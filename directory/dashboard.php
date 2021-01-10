@@ -129,14 +129,16 @@ if ( is_user_logged_in()
 				} 
 
 				//Fin history
-
-				//ORDONNANCE
-				else if( $user_type === 'pharmacies' && $ref === 'appointment' && $mode === 'listing' && ($url_identity === $user_identity) ) {
-					get_template_part('directory/front-end/templates/pharmacies/dashboard', 'ordonnances');
-				}
-				else if ( $user_type === 'pharmacies' && !empty($ref) && $_GET['ref'] === 'ordonnances' && ($url_identity === $user_identity) ) {
-					get_template_part('directory/front-end/templates/pharmacies/dashboard', 'ordonnances');
+				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'info-medical-listing' && ($url_identity === $user_identity) ) {
+					get_template_part('directory/front-end/templates/regular_users/dashboard', 'info-medical-listing');
 				} 
+				//ORDONNANCE
+				// else if( $user_type === 'pharmacies' && $ref === 'appointment' && $mode === 'listing' && ($url_identity === $user_identity) ) {
+				// 	get_template_part('directory/front-end/templates/pharmacies/dashboard', 'ordonnances');
+				// }
+				// else if ( $user_type === 'pharmacies' && !empty($ref) && $_GET['ref'] === 'ordonnances' && ($url_identity === $user_identity) ) {
+				// 	get_template_part('directory/front-end/templates/pharmacies/dashboard', 'ordonnances');
+				// } 
                //FIN ORDONNANCE
 				
 				else if ( !empty($ref) && $_GET['ref'] === 'account-settings' && ($url_identity === $user_identity) ) {

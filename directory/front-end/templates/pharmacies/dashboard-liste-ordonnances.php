@@ -166,7 +166,10 @@ $sorting 			= 'ID';
 				  </tr>	 
 					<?php	
 					}
-					
+					//SEND NOTIFICATION TO ADMIN
+					if($med_status == "Terminer") {
+						include_once('sendMail.php');
+					}
 					}
 				    }
 					//endwhile;
