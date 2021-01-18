@@ -132,6 +132,13 @@ if ( is_user_logged_in()
 				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'info-medical-listing' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/regular_users/dashboard', 'info-medical-listing');
 				} 
+				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'test-medical-listing' && ($url_identity === $user_identity) ) {
+					get_template_part('directory/front-end/templates/regular_users/dashboard', 'test-medical-listing');
+				} 
+
+				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'test-results' && ($url_identity === $user_identity) ) {
+					get_template_part('directory/front-end/templates/regular_users/dashboard', 'test-results');
+				} 
 				//ORDONNANCE
 				// else if( $user_type === 'pharmacies' && $ref === 'appointment' && $mode === 'listing' && ($url_identity === $user_identity) ) {
 				// 	get_template_part('directory/front-end/templates/pharmacies/dashboard', 'ordonnances');

@@ -3984,12 +3984,19 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 						<?php } ?>
 					</div>
 				<?php } else if( $is_dashboard === 'yes' && !empty( $current_user_type ) && $current_user_type === 'regular_users' && apply_filters('doctreat_is_feature_allowed', 'dc_chat', $doctor_user_id) === true ){?>
+				      
 					<div class="dc-btnarea">
 						<a href="javascript:;" data-toggle="modal" data-target="#send_message" class="dc-btn dc-send-message dc-msgbtn"><i class="ti-email"></i></a>
                     
 						<?php if( !empty($prescription_id) ){
 						   $prescription	= get_post_meta( $prescription_id, '_detail', true );
 						   $medicine = !empty($prescription['_medicine']) ? $prescription['_medicine'] : array();
+						//    $laboratory_tests = doctreat_get_taxonomy_array('laboratory_tests');
+						// 	//var_dump($laboratory_tests);
+						// 	foreach($laboratory_tests as $test){
+						// 		//echo $test->name;
+						// 		var_dump($test->name);
+						// 	}
 						?>
                          
 							<form method="post" name="download_pdf">
@@ -4012,6 +4019,8 @@ if ( !function_exists( 'doctreat_get_booking_byID' ) ) {
 							</div>
 							<?php
 						}
+						//btn test
+                        
 					    } else {
 							?>
 							<div class="dc-rightarea">
@@ -5265,7 +5274,7 @@ if (!function_exists('doctreat_update_medication')) {
 			wp_update_post($post_array);
 		}
 
-		// $post_meta						= array();
+		// $post_meta = array();
 		// if( !empty($laboratory_tests) ){
 		// 	$laboratory_tests_array	= array();
 		// 	foreach($laboratory_tests as $laboratory_test ){

@@ -19,3 +19,9 @@ License URI:
 
 /* =Theme customization starts here
 -------------------------------------------------------------- */
+
+.woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
+    list-style-type: none!important;
+    display: inline-block!important;
+    margin-bottom: 100px!important;
+}
