@@ -11,6 +11,7 @@ global $current_user, $wp_roles, $userdata, $post,$theme_settings;
 get_header();
 $user_identity 	= $current_user->ID;
 $url_identity 	= !empty($_GET['identity']) ? intval($_GET['identity']) : '';
+$prescription_id 	= !empty($_GET['prescription']) ? intval($_GET['prescription']) : '';
 $user_type		= apply_filters('doctreat_get_user_type', $user_identity );
 $post_id		= doctreat_get_linked_profile_id( $user_identity );
 $is_verified 	= get_post_meta($post_id, '_is_verified', true);
@@ -136,7 +137,7 @@ if ( is_user_logged_in()
 					get_template_part('directory/front-end/templates/regular_users/dashboard', 'test-medical-listing');
 				} 
 
-				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'test-results' && ($url_identity === $user_identity) ) {
+				else if ( $user_type === 'regular_users' && !empty($ref) && $_GET['ref'] === 'test-results'  && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/regular_users/dashboard', 'test-results');
 				} 
 				//ORDONNANCE
@@ -148,7 +149,7 @@ if ( is_user_logged_in()
 				// } 
                //FIN ORDONNANCE
 				
-				else if ( !empty($ref) && $_GET['ref'] === 'account-settings' && ($url_identity === $user_identity) ) {
+				else if ( !empty($ref) && $_GET['ref'] === 'account-settings' && ($url_identity === $user_identity)  ) {
 					get_template_part('directory/front-end/templates/dashboard', 'account-manage');
 				} elseif ( !empty($ref) && $_GET['ref'] === 'saved' && ($url_identity === $user_identity) ) {
 					get_template_part('directory/front-end/templates/dashboard', 'saved-items');
