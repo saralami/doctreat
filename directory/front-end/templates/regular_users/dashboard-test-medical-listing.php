@@ -124,13 +124,15 @@ $tests = array();
         </th>
         <td>
             <!-- Button trigger modal -->
-<button class="dc-btn dc-btn-sm dc-rightarea" data-toggle="modal" data-target="#<?php echo $prescription_id?>">
+<!-- <button class="dc-btn dc-btn-sm dc-rightarea" data-toggle="modal" data-target="#<?php //echo $prescription_id?>">
   Launch demo modal
-</button>
-<?php include("ModalTest.php");?>
+</button> -->
+<?php //include("ModalTest.php");
+$test_url = !empty($prescription_id) ?Doctreat_Profile_Menu::doctreat_profile_menu_link('test-results', $user_identity,true,'view').'&prescription_id='.$prescription_id : '';
+?>
 
-            <!-- <a href=""></a>
-            <a href="<?php //Doctreat_Profile_Menu::doctreat_profile_menu_link('test-results', $user_identity,''); ?>" class="dc-btn dc-btn-sm dc-rightarea ">résultats de tests</a> -->
+            <a href=""></a>
+            <a href="<?php echo esc_url($test_url); ?>" class="dc-btn dc-btn-sm dc-rightarea ">résultats de tests</a>
         </td>
         </tr>
     <?php }

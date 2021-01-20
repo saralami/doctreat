@@ -14,23 +14,25 @@
       $laboratory_tests_name	= ( wp_list_pluck($laboratory_tests_obj_list, 'name'));
       //var_dump($laboratory_tests_name);
       ?>
-      <form enctype="multipart/form-data" action="" method="post">
+      <form enctype="multipart/form-data" method="post">
+      
+  
       <?php 
-         foreach($laboratory_tests_name as $test){
+       foreach($laboratory_tests_name as $test){
            //echo $test;
         
       ?>
       <label for=""><?php echo  $test; ?></label>
       
-        <input name="testfile" type="file" class="form-control">
+        <input name="file[]" type="file" class="form-control">
          <?php 
        }
       //echo $prescription_id; 
       
       ?>
-       <input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+       <!-- <input type="hidden" name="MAX_FILE_SIZE" value="30000" /> -->
 
-       <button type="submit" name="fileToUpload" class="btn btn-primary">Enregistrer</button>
+       <button type="submit" name="upload_file" value="Upload" class="btn btn-primary">Enregistrer</button>
       </form>
      
 
@@ -44,13 +46,7 @@
   </div>
 </div>
 
-<?php  
-$target_path = "e:/";  
-$target_path = $target_path.basename( $_FILES['fileToUpload']['name']);   
-  
-if(move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target_path)) {  
-    echo "File uploaded successfully!";  
-} else{  
-    echo "Sorry, file not uploaded, please try again!";  
-}  
-?>  
+
+<?php 
+ 
+?>

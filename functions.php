@@ -59,3 +59,15 @@ if( class_exists( 'DoctreatGlobalSettings' ) ) {
 }
 
 
+
+
+function fn_upload_file() {
+    if ( isset($_POST['upload_file']) ) {
+		$testfile = $_POST['file'];
+		foreach( $testfile as $d ) {
+		 $upload = wp_upload_bits($_FILES[$d]['name'], null, $_FILES['file']['tmp_name']);
+		}
+        // save into database $upload['url]
+    }
+}
+add_action('init', 'fn_upload_file');
